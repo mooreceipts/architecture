@@ -166,17 +166,21 @@ Main Thread Direct        Select Scout / Reviewer    Decompose Task into
 
 ---
 
-## 5. Excalidraw System Visual
+## 5. Excalidraw System Visual & Rendered Topology Diagram
 
-An interactive Excalidraw visual diagram has been generated and published alongside this document:
-- **Excalidraw Diagram File**: [`pi-delegation-strategy.excalidraw`](file:///M:/Github/architecture/pi/pi-delegation-strategy.excalidraw)
+The system architecture and subagent delegation flow have been rendered and published to Excalidraw canvas and high-resolution PNG:
+- **Rendered PNG Diagram**: [`pi-delegation-strategy.png`](file:///M:/Github/architecture/pi/pi-delegation-strategy.png)
+- **Excalidraw Canvas File**: [`pi-delegation-strategy.excalidraw`](file:///M:/Github/architecture/pi/pi-delegation-strategy.excalidraw)
 
-### Canvas Structure:
-- **Blue Rectangle**: Main Pi Agent (Frontier Orchestrator)
-- **Purple Rectangle**: Subagent Router & Selector Engine
-- **Green Rectangle**: Pi Subprocess Harness (`pi-child-process.ts`)
-- **Amber Rectangle**: Execution & Security Controls (`--no-extensions`, Auth Forwarding, Watchdog)
-- **Dark Slate Container**: Subagent Worker Pool (`cavecrew-investigator`, `cavecrew-builder`, `cavecrew-reviewer`, `deepseek-worker`, `deepseek-reviewer`, `local-worker`)
+![Pi Subagent Delegation Strategy Architecture](file:///M:/Github/architecture/pi/pi-delegation-strategy.png)
+
+### Canvas Structure & Component Blueprint:
+- **Blue Node (Main Agent)**: Main Pi Agent Frontier Orchestrator
+- **Purple Node (Router)**: Subagent Router & Selection Engine (Scope check, role assignment, token budget rules)
+- **Green Container (Harness)**: Pi Subprocess Harness (`pi-child-process.ts` spawning `pi -p --no-session --no-extensions`)
+- **Amber Supervisor (Watchdog)**: `child-process-watchdog.mjs` (Windows `taskkill /T /F` & POSIX process group signals, sentinel cancellation polling)
+- **Dark Slate Pool (Worker Presets)**: `cavecrew-investigator`, `cavecrew-builder`, `cavecrew-reviewer`, `deepseek-worker`, `deepseek-reviewer`, `local-worker`
+
 
 ---
 
