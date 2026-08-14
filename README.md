@@ -1,8 +1,8 @@
-[![GitHub Card](./assets/card.svg)](https://github.com/mooreceipts/architecture)
+[![GitHub Card](./assets/card.svg)](https://github.com/mooreceipts/MusingMoo)
 
 ---
 
-# architecture
+# MusingMoo
 
 A living repository of higher-level design, architectural strategy, and conceptual documentation. No source code lives here — only the thinking behind it.
 
@@ -13,14 +13,14 @@ Documents are written to capture **intent and reasoning**. They are meant to be 
 ## Structure
 
 ```
-architecture/
+MusingMoo/
 ├── harness engineering/
 │   ├── operators-guide.md                        # Workflow shifts after harness adoption
 │   ├── pi-harness-hardening-plan.md              # Hardening strategy: fitness checks, token control, mechanical bounds
 │   └── why-configure-your-harness.md             # Rationale for harness configuration
 └── pi/
     ├── persistent portable memory strategy/
-    │   ├── pi-persistent-portable-memory-strategy.md          # Dual-tier memory architecture, vault sync
+    │   ├── pi-persistent-portable-memory-strategy.md          # Dual-tier memory MusingMoo, vault sync
     │   ├── pi-persistent-portable-memory-strategy.excalidraw  # System topology (source)
     │   └── pi-persistent-portable-memory-strategy.png         # Rendered diagram
     └── subagent delegation implementation/
