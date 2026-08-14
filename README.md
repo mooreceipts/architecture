@@ -1,50 +1,49 @@
 # architecture
 
-> A living repository of higher-level design, architectural strategy, and conceptual documentation.
-> No source code lives here — only the thinking behind it.
+> Personal knowledge base for architectural decisions, system designs, and conceptual frameworks.
+> No code. No implementation. Intent, reasoning, and structure only.
+
+---
+
+| | |
+|---|---|
+| **Type** | Living document repository |
+| **Audience** | Technical — assumes familiarity with the systems described |
+| **Formats** | Markdown (prose) · Excalidraw (diagrams) · PNG (rendered exports) |
+| **Stability** | None guaranteed — check commit history for revision context |
 
 ---
 
 ## What this is
 
-A personal knowledge base for architectural decisions, system designs, and conceptual frameworks. Documents here are written to capture **intent and reasoning**, not implementation. They are meant to be referenced, revised, and built upon over time.
+A place to think in writing. Documents here capture *why* things are designed a certain way, not *how* they are built. They are meant to be referenced, revised, and built upon as systems evolve and understanding sharpens.
 
-This repository is deliberately unbounded — documents are added as systems evolve, designs are updated as understanding sharpens, and nothing is considered finalized.
-
----
+This repository is intentionally unbounded. Nothing here is finalized — documents are living artifacts that reflect current thinking at the time of last edit.
 
 ## Structure
 
-Documents are organized by subject domain. Each domain folder may contain written docs, diagrams (Excalidraw), and rendered exports.
+Organized by subject domain. Each domain may contain written docs, Excalidraw diagram sources, and rendered PNG exports alongside them.
 
 ```
 architecture/
 └── pi/
     ├── harness engineering/
-    │   ├── operators-guide.md                       # Operator workflow shifts post-harness
-    │   ├── pi-harness-hardening-plan.md             # Hardening strategy: fitness checks, token control, bounds
-    │   └── why-configure-your-harness.md            # Rationale for harness configuration
+    │   ├── operators-guide.md                              # Operator workflow shifts post-harness
+    │   ├── pi-harness-hardening-plan.md                   # Hardening strategy: fitness checks, token control, bounds
+    │   └── why-configure-your-harness.md                  # Rationale for harness configuration
     ├── persistent portable memory strategy/
-    │   ├── pi-persistent-portable-memory-strategy.md          # Dual-tier memory architecture, vault sync
-    │   ├── pi-persistent-portable-memory-strategy.excalidraw  # System topology diagram (source)
-    │   └── pi-persistent-portable-memory-strategy.png         # Rendered diagram
+    │   ├── pi-persistent-portable-memory-strategy.md      # Dual-tier memory architecture, vault sync
+    │   ├── pi-persistent-portable-memory-strategy.excalidraw
+    │   └── pi-persistent-portable-memory-strategy.png
     └── subagent delegation implementation/
-        ├── pi-delegation-strategy.md                # Delegation pipeline, routing, subprocess isolation
-        ├── pi-delegation-strategy.excalidraw        # Architecture diagram (source)
-        └── pi-delegation-strategy.png               # Rendered diagram
+        ├── pi-delegation-strategy.md                      # Delegation pipeline, routing, subprocess isolation
+        ├── pi-delegation-strategy.excalidraw
+        └── pi-delegation-strategy.png
 ```
-
----
 
 ## Conventions
 
-- **Markdown** for all written documents.
-- **Excalidraw** for diagrams, with a rendered PNG alongside each source file.
 - Folder names reflect the subject, not the document type.
-- Documents are written for a technical audience and assume familiarity with the system being described.
-
----
-
-## Status
-
-Living document set. Content is added and revised continuously. No version guarantees — check commit history for change context.
+- Excalidraw diagrams ship with a rendered PNG alongside the source file.
+- Documents assume a technical reader familiar with the system being described.
+- Prose is written to capture intent and reasoning — not steps or specifications.
