@@ -63,6 +63,7 @@
     max-width:46ch;margin:22px auto 0;color:var(--ink-soft);
     font-size:clamp(19px,2.4vw,23px);line-height:1.42;
   }
+  .hero-art{display:block;width:min(320px,72vw);height:auto;margin:30px auto 0;border-radius:18px}
 
   .claim{
     margin:38px 0 28px;padding:38px clamp(24px,5vw,48px);
@@ -111,9 +112,16 @@
   .section-group{margin:0 0 76px;scroll-margin-top:22px}
 
   .lesson{
-    margin:0 0 22px;padding:28px;
+    display:grid;grid-template-columns:minmax(230px,34%) 1fr;gap:30px;
+    align-items:start;margin:0 0 22px;padding:28px;
     background:var(--card);border:1px solid var(--line);border-radius:20px;
   }
+  .lesson figure{margin:0}
+  .art-single img,.art-pair img{
+    display:block;width:100%;height:auto;
+    border-radius:14px;background:#D9E0E6;
+  }
+  .art-pair{display:grid;grid-template-columns:1fr;gap:12px}
   .eyebrow{margin:0 0 5px;color:var(--teal);font-size:11px}
   .lesson h2{margin:0;font-size:clamp(27px,3.6vw,36px);line-height:1.08}
   .term{
@@ -221,19 +229,17 @@
   .exercise ol{margin:0;padding-left:22px}
   .exercise li+li{margin-top:8px}
 
-  .limits{margin:0 0 68px;padding:28px;border-radius:18px;background:#DFDAEC}
-  .limits h2{margin:0 0 8px;font-size:26px}
-  .limits p{margin:0}
-  .limits p+p{margin-top:10px}
-  footer{padding:0 0 72px;text-align:center;color:var(--ink-soft);font-size:15px}
+  footer{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 0 72px;text-align:center;color:var(--ink-soft);font-size:15px}
   footer a{color:inherit}
+  footer .separator{color:var(--line-strong)}
 
   @media (max-width:760px){
     body{font-size:17px}
     .wrap{width:min(100% - 28px,920px)}
     header{padding-top:48px}
     .map{grid-template-columns:repeat(2,1fr)}
-    .lesson{padding:22px}
+    .lesson{grid-template-columns:1fr;padding:22px}
+    .lesson figure{width:min(100%,390px);margin-inline:auto}
     .pipeline-grid{grid-template-columns:1fr}
   }
   @media (max-width:520px){
@@ -264,10 +270,11 @@
     <p class="kicker">A beginner's guide to what's happening inside AI</p>
     <h1>LLMs, Demystified</h1>
     <p class="subtitle">A plain-language look at how large language models turn text into tokens, learn patterns, generate replies, and sometimes get things wrong — no computer science degree required.</p>
+    <img class="hero-art" src="images/hero.jpg" alt="An illustrated chibi AI robot in a futuristic studio surrounded by glowing text tokens.">
   </header>
 
   <section class="claim" aria-labelledby="main-idea">
-    <strong id="main-idea">An LLM is a giant next-piece-of-text prediction engine.</strong>
+    <strong id="main-idea">An LLM is a giant next-piece-of-text prediction system.</strong>
     <p>Given the text so far, it calculates probabilities for possible next pieces, selects one, adds it to the sequence, and repeats. The model itself does not search a database, but the AI product around it may provide documents, memory, web search, calculators, or other tools.</p>
   </section>
 
@@ -310,102 +317,122 @@
       </div>
 
       <article class="lesson" id="product">
-        <p class="eyebrow">01 · The engine is not the whole vehicle</p>
-        <h2>Separate the model from the product</h2>
-        <span class="term">LLM + surrounding system</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/product.jpg" alt="">
+        </figure>
+        <div>
+        <p class="eyebrow">01 · The model is only one part</p>
+          <h2>Separate the model from the product</h2>
+          <span class="term">LLM + surrounding system</span>
 
-        <h3>What it means</h3>
-        <p>The <strong>LLM</strong> is the trained prediction engine. The chat app or AI product around it may add system instructions, saved memory, uploaded files, web search, calculators, safety rules, and other tools. Those additions can make the same underlying model behave very differently.</p>
+          <h3>What it means</h3>
+        <p>The <strong>LLM</strong> is the trained prediction system. The chat app or AI product around it may add system instructions, saved memory, uploaded files, web search, calculators, safety rules, and other tools. Those additions can make the same underlying model behave very differently.</p>
 
-        <div class="stack" role="img" aria-label="An AI product contains an interface, tools and memory, current context, and an underlying language model.">
-          <div>What you see: chat or AI app</div>
-          <div>Optional tools: search, files, memory, calculators</div>
-          <div>Current instructions and context</div>
-          <div>Underlying LLM: predicts tokens</div>
+          <div class="stack" role="img" aria-label="An AI product contains an interface, tools and memory, current context, and an underlying language model.">
+            <div>What you see: chat or AI app</div>
+            <div>Optional tools: search, files, memory, calculators</div>
+            <div>Current instructions and context</div>
+            <div>Underlying LLM: predicts tokens</div>
+          </div>
+
+          <h3>Why it matters</h3>
+          <p>“The AI searched the web,” “the app remembered me,” and “the model knew it” describe different mechanisms. A model alone generates from its training and current context. A product can fetch fresh information and place it into that context before asking the model to answer.</p>
         </div>
-
-        <h3>Why it matters</h3>
-        <p>“The AI searched the web,” “the app remembered me,” and “the model knew it” describe different mechanisms. A model alone generates from its training and current context. A product can fetch fresh information and place it into that context before asking the model to answer.</p>
       </article>
 
       <article class="lesson" id="tokens">
-        <p class="eyebrow">02 · Chopping language into reusable pieces</p>
-        <h2>Reading in tokens, not words</h2>
-        <span class="term">Tokenization</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/tokens.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">02 · Chopping language into reusable pieces</p>
+          <h2>Reading in tokens, not words</h2>
+          <span class="term">Tokenization</span>
 
-        <h3>What a token is</h3>
-        <p>Before text reaches the model, a <strong>tokenizer</strong> breaks it into tokens and assigns each token a number. A token may be a whole word, part of a word, punctuation, whitespace, a byte sequence, or a special control marker. The model processes those numbered pieces, not the page exactly as you see it.</p>
+          <h3>What a token is</h3>
+          <p>Before text reaches the model, a <strong>tokenizer</strong> breaks it into tokens and assigns each token a number. A token may be a whole word, part of a word, punctuation, whitespace, a byte sequence, or a special control marker. The model processes those numbered pieces, not the page exactly as you see it.</p>
 
-        <h3>Why tokenizers differ</h3>
-        <p>A tokenizer has a fixed vocabulary built for a particular model family and training mixture. Frequently occurring character sequences may earn one compact token; rarer sequences must be assembled from smaller pieces. Different designers choose different algorithms, vocabulary sizes, training data, language coverage, code coverage, and special markers. Even one provider may use different tokenizers for different model families or generations.</p>
-        <p>The tokenizer and model are trained to work together. Token number 12,345 might mean one text fragment to Model A and something unrelated to Model B. Swapping tokenizers would scramble the model's learned input meanings.</p>
+          <h3>Why tokenizers differ</h3>
+          <p>A tokenizer has a fixed vocabulary built for a particular model family and training mixture. Frequently occurring character sequences may earn one compact token; rarer sequences must be assembled from smaller pieces. Different designers choose different algorithms, vocabulary sizes, training data, language coverage, code coverage, and special markers. Even one provider may use different tokenizers for different model families or generations.</p>
+          <p>The tokenizer and model are trained to work together. Token number 12,345 might mean one text fragment to Model A and something unrelated to Model B. Swapping tokenizers would scramble the model's learned input meanings.</p>
 
-        <div class="token-compare" aria-label="Illustrative comparison of two possible tokenizations">
-          <div class="token-row">
-            <strong>Visible text</strong>
-            <span>unbelievable results!</span>
+          <div class="token-compare" aria-label="Illustrative comparison of two possible tokenizations">
+            <div class="token-row">
+              <strong>Visible text</strong>
+              <span>unbelievable results!</span>
+            </div>
+            <div class="token-row">
+              <strong>Tokenizer A: 3</strong>
+              <span class="token-pieces"><span>unbelievable</span><span>␠results</span><span>!</span></span>
+            </div>
+            <div class="token-row">
+              <strong>Tokenizer B: 5</strong>
+              <span class="token-pieces"><span>un</span><span>believ</span><span>able</span><span>␠results</span><span>!</span></span>
+            </div>
           </div>
-          <div class="token-row">
-            <strong>Tokenizer A: 3</strong>
-            <span class="token-pieces"><span>unbelievable</span><span>␠results</span><span>!</span></span>
-          </div>
-          <div class="token-row">
-            <strong>Tokenizer B: 5</strong>
-            <span class="token-pieces"><span>un</span><span>believ</span><span>able</span><span>␠results</span><span>!</span></span>
-          </div>
-        </div>
-        <p class="small-note">Illustrative splits only. Exact pieces depend on the selected model's tokenizer. The ␠ symbol makes a leading space visible; real tokenizer displays use different conventions.</p>
+          <p class="small-note">Illustrative splits only. Exact pieces depend on the selected model's tokenizer. The ␠ symbol makes a leading space visible; real tokenizer displays use different conventions.</p>
 
-        <h3>Why token counts change</h3>
-        <p>The same sentence can use different token counts across models. A tokenizer trained with more examples from a language or programming syntax may represent its common patterns more compactly. Names, uncommon words, emoji, formatting, and mixed-language text may split differently as well. Chat products can also add system instructions, tool descriptions, and special formatting tokens that are not visible in your typed prompt.</p>
+          <h3>Why token counts change</h3>
+          <p>The same sentence can use different token counts across models. A tokenizer trained with more examples from a language or programming syntax may represent its common patterns more compactly. Names, uncommon words, emoji, formatting, and mixed-language text may split differently as well. Chat products can also add system instructions, tool descriptions, and special formatting tokens that are not visible in your typed prompt.</p>
 
-        <div class="currency-note">
-          <h3>Tokens are not a universal currency</h3>
-          <p>A token is a local unit inside one tokenizer, more like an arcade token made for one machine than a coin with universal value. “One million tokens” does not guarantee the same amount of text, information, computation, quality, or price across models — even models from the same provider.</p>
-          <ul>
-            <li><strong>Text amount differs:</strong> each tokenizer may split identical text into a different number of pieces.</li>
-            <li><strong>Meaning differs:</strong> token IDs and vocabulary entries are model-specific.</li>
-            <li><strong>Work differs:</strong> architectures and reasoning methods may spend different computation on each visible input or output token.</li>
-            <li><strong>Billing differs:</strong> providers set model-specific rates and may price input, cached input, output, or internal reasoning differently.</li>
-          </ul>
-          <p>Use tokens to measure limits and cost <em>within the named model and pricing rules</em>. Use words, characters, documents, task results, and total price when comparing across models.</p>
+          <div class="currency-note">
+          <h3>Token counts are not directly comparable</h3>
+          <p>A token is not a standard-sized unit. Think of grocery bags: one store might pack the same groceries into three large bags while another uses five smaller ones. Likewise, different models can divide identical text into different numbers of tokens. “One million tokens” does not guarantee the same amount of text, information, computation, quality, or price across models — even models from the same provider.</p>
+            <ul>
+              <li><strong>Text amount differs:</strong> each tokenizer may split identical text into a different number of pieces.</li>
+              <li><strong>Meaning differs:</strong> token IDs and vocabulary entries are model-specific.</li>
+              <li><strong>Work differs:</strong> architectures and reasoning methods may spend different computation on each visible input or output token.</li>
+              <li><strong>Billing differs:</strong> providers set model-specific rates and may price input, cached input, output, or internal reasoning differently.</li>
+            </ul>
+            <p>Use tokens to measure limits and cost <em>within the named model and pricing rules</em>. Use words, characters, documents, task results, and total price when comparing across models.</p>
+          </div>
         </div>
       </article>
 
       <article class="lesson" id="attention">
-        <p class="eyebrow">03 · Deciding what in the prompt matters now</p>
-        <h2>Connecting tokens through attention</h2>
-        <span class="term">Transformer + attention</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/attention.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">03 · Deciding what in the prompt matters now</p>
+          <h2>Connecting tokens through attention</h2>
+          <span class="term">Transformer + attention</span>
 
-        <h3>What it means</h3>
-        <p>Tokens are converted into lists of numbers that represent learned features. These numbers pass through many transformer layers. Within those layers, <strong>attention</strong> lets each token weigh which earlier tokens are most relevant to its current job.</p>
+          <h3>What it means</h3>
+          <p>Tokens are converted into lists of numbers that represent learned features. These numbers pass through many transformer layers. Within those layers, <strong>attention</strong> lets each token weigh which earlier tokens are most relevant to its current job.</p>
 
-        <h3>Why it matters</h3>
-        <p>Attention is why advanced autocomplete can do more than follow the last word. When resolving “it” in a paragraph, matching an answer to a question, or keeping a style consistent, the model can draw on relationships across much of the available context. Think of adjustable highlighting, not conscious focus: many patterns are calculated at once.</p>
+          <h3>Why it matters</h3>
+        <p>Attention is why an LLM can do much more than a phone's next-word suggestions. When resolving “it” in a paragraph, matching an answer to a question, or keeping a style consistent, the model can draw on relationships across much of the available context. Think of adjustable highlighting, not conscious focus: many patterns are calculated at once.</p>
+        </div>
       </article>
 
       <article class="lesson" id="prediction">
-        <p class="eyebrow">04 · One probability choice, repeated</p>
-        <h2>Predicting the next token</h2>
-        <span class="term">Next-token prediction</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/prediction.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">04 · One probability choice, repeated</p>
+          <h2>Predicting the next token</h2>
+          <span class="term">Next-token prediction</span>
 
-        <h3>What it means</h3>
-        <p>After processing the context, the model assigns probabilities to many possible next tokens. A decoding method selects or samples one candidate, appends it to the context, then runs the process again. Thousands of small choices can become one long answer.</p>
+          <h3>What it means</h3>
+          <p>After processing the context, the model assigns probabilities to many possible next tokens. A decoding method selects or samples one candidate, appends it to the context, then runs the process again. Thousands of small choices can become one long answer.</p>
 
-        <div class="try">
-          <strong>Illustrative next-token probabilities</strong>
-          <p>After “The cat sat on the …” a model might assign:</p>
-          <div class="probabilities" aria-label="Illustrative next-token probabilities: mat 48 percent, floor 22 percent, chair 11 percent, moon less than 1 percent.">
-            <div class="probability"><span>mat</span><span class="probability-bar"><i style="width:48%"></i></span><b>48%</b></div>
-            <div class="probability"><span>floor</span><span class="probability-bar"><i style="width:22%"></i></span><b>22%</b></div>
-            <div class="probability"><span>chair</span><span class="probability-bar"><i style="width:11%"></i></span><b>11%</b></div>
-            <div class="probability"><span>moon</span><span class="probability-bar"><i style="width:1%"></i></span><b>&lt;1%</b></div>
+          <div class="try">
+            <strong>Illustrative next-token probabilities</strong>
+            <p>After “The cat sat on the …” a model might assign:</p>
+            <div class="probabilities" aria-label="Illustrative next-token probabilities: mat 48 percent, floor 22 percent, chair 11 percent, moon less than 1 percent.">
+              <div class="probability"><span>mat</span><span class="probability-bar"><i style="width:48%"></i></span><b>48%</b></div>
+              <div class="probability"><span>floor</span><span class="probability-bar"><i style="width:22%"></i></span><b>22%</b></div>
+              <div class="probability"><span>chair</span><span class="probability-bar"><i style="width:11%"></i></span><b>11%</b></div>
+              <div class="probability"><span>moon</span><span class="probability-bar"><i style="width:1%"></i></span><b>&lt;1%</b></div>
+            </div>
+            <p class="small-note">Made-up percentages for teaching. Real candidate lists are far larger.</p>
           </div>
-          <p class="small-note">Made-up percentages for teaching. Real candidate lists are far larger.</p>
-        </div>
 
-        <h3>Why it matters</h3>
-        <p>The model does not always choose the single highest-probability token. Sampling settings can allow less likely choices, producing variety between runs. This probability process can produce useful planning and reasoning behavior, but polished language alone does not prove that a claim is true.</p>
+          <h3>Why it matters</h3>
+          <p>The model does not always choose the single highest-probability token. Sampling settings can allow less likely choices, producing variety between runs. This probability process can produce useful planning and reasoning behavior, but polished language alone does not prove that a claim is true.</p>
+        </div>
       </article>
     </section>
 
@@ -413,81 +440,101 @@
       <div class="section-heading">
         <p class="eyebrow">How it got that way</p>
         <h2 id="shape-title">Training, scale, context, and reliability</h2>
-        <p>These concepts explain how a prediction engine becomes an assistant, what model size means, and where fluent output can mislead.</p>
+        <p>These concepts explain how a prediction system becomes an assistant, what model size means, and where fluent output can mislead.</p>
       </div>
 
       <article class="lesson" id="training">
-        <p class="eyebrow">05 · Learning language, then learning assistant behavior</p>
-        <h2>Training happens in stages</h2>
-        <span class="term">Pretraining + post-training</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/training.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">05 · Learning language, then learning assistant behavior</p>
+          <h2>Training happens in stages</h2>
+          <span class="term">Pretraining + post-training</span>
 
-        <h3>Pretraining: learn broad patterns</h3>
-        <p>Developers collect, filter, and prepare a very large mixture of text and other data. During pretraining, the model repeatedly predicts a hidden next token. Its prediction is compared with the real token, and its parameters are adjusted slightly to reduce future error. Repeating this across enormous datasets builds patterns for language, facts, style, code, and problem-solving.</p>
+          <h3>Pretraining: learn broad patterns</h3>
+          <p>Developers collect, filter, and prepare a very large mixture of text and other data. During pretraining, the model repeatedly predicts a hidden next token. Its prediction is compared with the real token, and its parameters are adjusted slightly to reduce future error. Repeating this across enormous datasets builds patterns for language, facts, style, code, and problem-solving.</p>
 
-        <h3>Post-training: shape an assistant</h3>
-        <p>A raw pretrained model is good at continuing text but may not be helpful in conversation. Post-training uses examples, human or automated preferences, safety training, and tests to improve instruction-following and response behavior. This stage helps explain why two models with similar size can feel very different.</p>
+          <h3>Post-training: shape an assistant</h3>
+          <p>A raw pretrained model is good at continuing text but may not be helpful in conversation. Post-training uses examples, human or automated preferences, safety training, and tests to improve instruction-following and response behavior. This stage helps explain why two models with similar size can feel very different.</p>
 
-        <h3>Why it matters</h3>
-        <p>Training data leaves fingerprints: strengths, gaps, cultural assumptions, outdated information, and bias can all carry into outputs. The model does not contain a clean, searchable copy of its training set, but it can sometimes reproduce memorized fragments. Most knowledge is spread across many learned parameter patterns rather than stored as readable documents.</p>
+          <h3>Why it matters</h3>
+          <p>Training data leaves fingerprints: strengths, gaps, cultural assumptions, outdated information, and bias can all carry into outputs. The model does not contain a clean, searchable copy of its training set, but it can sometimes reproduce memorized fragments. Most knowledge is spread across many learned parameter patterns rather than stored as readable documents.</p>
 
-        <div class="try">
-          <strong>Think of it like</strong>
-          <p>Pretraining is years of broad reading and practice. Post-training is job orientation: how to answer requests, follow instructions, use expected formats, and avoid certain failures. Neither stage guarantees that every remembered detail is correct.</p>
+          <div class="try">
+            <strong>Think of it like</strong>
+            <p>Think of learning a language in two stages: first seeing many examples, then practicing conversations with feedback. Pretraining builds broad patterns; post-training practices how to respond to requests. Neither stage guarantees that every remembered detail is correct.</p>
+          </div>
         </div>
       </article>
 
       <article class="lesson" id="parameters">
-        <p class="eyebrow">06 · The dials tuned during training</p>
-        <h2>What “7B” or “70B” actually counts</h2>
-        <span class="term">Parameters</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/parameters.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">06 · The dials tuned during training</p>
+          <h2>What “7B” or “70B” actually counts</h2>
+          <span class="term">Parameters</span>
 
-        <h3>What it means</h3>
-        <p>Parameters are the internal numbers adjusted during training — the dials that collectively shape how inputs become predictions. When a published model name includes 7B or 70B, it usually means roughly 7 billion or 70 billion parameters. No single parameter is normally “the Paris fact” or “the grammar dial”; useful behavior emerges from many numbers working together.</p>
+          <h3>What it means</h3>
+        <p>Parameters are internal settings adjusted during training. Together, they shape how inputs become predictions. When a published model name includes 7B or 70B, it usually means roughly 7 billion or 70 billion parameters. No single parameter is normally “the Paris fact” or “the grammar setting”; useful behavior emerges from many numbers working together.</p>
 
-        <h3>Why it matters</h3>
-        <p>Within a comparable model family, more parameters often provide more capacity for subtle patterns. Across different families, parameter count is not an intelligence score. Architecture, training data, training compute, post-training, and task fit can let a smaller model outperform a larger one.</p>
-        <p>More parameters usually require more memory and computation, but parameter count is not the same as download size. Numerical precision and compression change how many bytes each parameter occupies. Some mixture-of-experts models also report both <em>total</em> parameters and the smaller number <em>active</em> for each token, so compare like with like.</p>
+          <h3>Why it matters</h3>
+          <p>Within a comparable model family, more parameters often provide more capacity for subtle patterns. Across different families, parameter count is not an intelligence score. Architecture, training data, training compute, post-training, and task fit can let a smaller model outperform a larger one.</p>
+          <p>More parameters usually require more memory and computation, but parameter count is not the same as download size. Numerical precision and compression change how many bytes each parameter occupies. Some mixture-of-experts models also report both <em>total</em> parameters and the smaller number <em>active</em> for each token, so compare like with like.</p>
 
-        <div class="try">
-          <strong>Think of it like</strong>
-          <p>A mixing board with billions of tiny sliders. More sliders can offer finer control, but the recording, sound engineer, equipment design, and final mix still matter. A larger board does not automatically produce a better song.</p>
+          <div class="try">
+            <strong>Think of it like</strong>
+            <p>A recipe with billions of tiny adjustable amounts. More adjustments can allow greater nuance, but ingredients and preparation still matter. A longer recipe does not automatically make a better meal.</p>
+          </div>
         </div>
       </article>
 
       <article class="lesson" id="context">
-        <p class="eyebrow">07 · The whiteboard used for this reply</p>
-        <h2>Working with what fits in context</h2>
-        <span class="term">Context window</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/context.jpg" alt="">
+        </figure>
+        <div>
+        <p class="eyebrow">07 · The workspace used for this reply</p>
+          <h2>Working with what fits in context</h2>
+          <span class="term">Context window</span>
 
-        <h3>What it means</h3>
-        <p>The context window is the maximum number of tokens the model can consider during one generation. System instructions, conversation messages, attached or retrieved material, tool results, and the answer as it grows may all consume space in that budget.</p>
+          <h3>What it means</h3>
+          <p>The context window is the maximum number of tokens the model can consider during one generation. System instructions, conversation messages, attached or retrieved material, tool results, and the answer as it grows may all consume space in that budget.</p>
 
-        <h3>Why it matters</h3>
-        <p>A bigger context window is a bigger whiteboard, not guaranteed memory or attention. Information can fit inside the window and still be overlooked, especially inside a long, cluttered prompt. When the budget fills, an app may reject more input, remove older material, summarize it, or start a fresh context. Product memory features work by saving selected information and supplying it again later.</p>
+          <h3>Why it matters</h3>
+        <p>A bigger context window provides more workspace, not guaranteed memory or attention. Information can fit inside the window and still be overlooked, especially inside a long, cluttered prompt. When the space fills, an app may reject more input, remove older material, summarize it, or start a fresh context. Product memory features work by saving selected information and supplying it again later.</p>
 
-        <div class="try">
-          <strong>Think of it like</strong>
-          <p>A whiteboard of fixed size in a busy meeting. Writing a fact on the board makes it available, but does not guarantee the group will notice or use it. Clear organization and relevant material still help.</p>
+          <div class="try">
+            <strong>Think of it like</strong>
+            <p>A table with limited space. Material placed on the table is available to use; material stored elsewhere is not. A crowded table also makes important items easier to overlook.</p>
+          </div>
         </div>
       </article>
 
       <article class="lesson" id="reliability">
-        <p class="eyebrow">08 · Fluency is not proof</p>
-        <h2>Why plausible answers can be wrong</h2>
-        <span class="term">Hallucination + sampling</span>
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/reliability.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">08 · Fluency is not proof</p>
+          <h2>Why plausible answers can be wrong</h2>
+          <span class="term">Hallucination + sampling</span>
 
-        <h3>What it means</h3>
-        <p>A model generates a likely continuation; it does not automatically check each sentence against reality. When learned patterns are incomplete, conflicting, outdated, or unsupported by current evidence, it can create a fluent but false detail — commonly called a <strong>hallucination</strong>. Search, retrieval, calculators, and citations can ground an answer, but their results still need correct interpretation.</p>
+          <h3>What it means</h3>
+          <p>A model generates a likely continuation; it does not automatically check each sentence against reality. When learned patterns are incomplete, conflicting, outdated, or unsupported by current evidence, it can create a fluent but false detail — commonly called a <strong>hallucination</strong>. Search, retrieval, calculators, and citations can ground an answer, but their results still need correct interpretation.</p>
 
-        <h3>Why answers can vary</h3>
-        <p>Decoding settings control how the system selects among probable next tokens. <strong>Temperature</strong> is one setting that usually increases variety as it rises. Lower temperature can make output more consistent, but it does not turn prediction into fact-checking and does not guarantee truth. Many consumer apps choose these settings for you.</p>
+          <h3>Why answers can vary</h3>
+          <p>Decoding settings control how the system selects among probable next tokens. <strong>Temperature</strong> is one setting that usually increases variety as it rises. Lower temperature can make output more consistent, but it does not turn prediction into fact-checking and does not guarantee truth. Many consumer apps choose these settings for you.</p>
 
-        <h3>Why it matters</h3>
-        <p>Fluency reflects skill at producing coherent language, not a calibrated certainty meter. Verify unfamiliar or consequential claims against reliable sources, especially quotations, citations, calculations, dates, and current events.</p>
+          <h3>Why it matters</h3>
+          <p>Fluency reflects skill at producing coherent language, not a calibrated certainty meter. Verify unfamiliar or consequential claims against reliable sources, especially quotations, citations, calculations, dates, and current events.</p>
 
-        <div class="try">
-          <strong>Think of it like</strong>
-          <p>A skilled improviser asked to continue a scene. When the script supplies the needed facts, the continuation may be excellent. When a fact is missing, the same ability to continue smoothly can invent a convincing detail.</p>
+          <div class="try">
+            <strong>Think of it like</strong>
+            <p>Someone giving directions from memory without checking a map. The explanation may sound clear and confident while still including a wrong turn. Supplying a reliable map helps, but the route should still be checked.</p>
+          </div>
         </div>
       </article>
     </section>
@@ -567,40 +614,63 @@
             <tr><th>Concept</th><th>Plain-language definition</th><th>Analogy to remember</th></tr>
           </thead>
           <tbody>
-            <tr><td>Model vs. product</td><td>The LLM predicts tokens; the surrounding app may add memory, search, files, and tools.</td><td>Engine versus the complete vehicle.</td></tr>
-            <tr><td>Tokens</td><td>Model-specific numbered pieces of text. Counts and meanings vary by tokenizer.</td><td>Arcade tokens made for one machine, not universal coins.</td></tr>
+            <tr><td>Model vs. product</td><td>The LLM predicts tokens; the surrounding app may add memory, search, files, and tools.</td><td>A cook working within a kitchen supplied with recipes, ingredients, and tools.</td></tr>
+            <tr><td>Tokens</td><td>Model-specific numbered pieces of text. Counts and meanings vary by tokenizer.</td><td>The same groceries packed into different numbers of bags.</td></tr>
             <tr><td>Attention</td><td>A mechanism for weighing relationships among tokens in the current context.</td><td>Adjustable highlighting across the page.</td></tr>
-            <tr><td>Prediction</td><td>Assigning probabilities, selecting one next token, and repeating.</td><td>Autocomplete scaled up enormously.</td></tr>
-            <tr><td>Training</td><td>Pretraining learns broad patterns; post-training shapes assistant behavior.</td><td>Education followed by job orientation.</td></tr>
-            <tr><td>Parameters</td><td>Internal values tuned during training; one measure of model capacity, not IQ.</td><td>Sliders on a giant mixing board.</td></tr>
-            <tr><td>Context window</td><td>The maximum working material available during one generation.</td><td>A fixed whiteboard that can still be overlooked.</td></tr>
-            <tr><td>Reliability</td><td>Fluent continuation can be useful without being verified or true.</td><td>An improviser continuing a scene.</td></tr>
+            <tr><td>Prediction</td><td>Assigning probabilities, selecting one next token, and repeating.</td><td>Phone word suggestions, repeated at a much larger scale.</td></tr>
+            <tr><td>Training</td><td>Pretraining learns broad patterns; post-training shapes assistant behavior.</td><td>Seeing many language examples, then practicing conversations with feedback.</td></tr>
+            <tr><td>Parameters</td><td>Internal values tuned during training; one measure of model capacity, not IQ.</td><td>Tiny adjustable amounts in an enormous recipe.</td></tr>
+            <tr><td>Context window</td><td>The maximum working material available during one generation.</td><td>A table with limited space for current materials.</td></tr>
+            <tr><td>Reliability</td><td>Fluent continuation can be useful without being verified or true.</td><td>Directions recalled without checking a map.</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <section class="exercise" id="exercise" aria-labelledby="exercise-title">
-      <h2 id="exercise-title">Try the prediction loop yourself</h2>
-      <p>This five-minute exercise builds intuition without requiring code or technical tools.</p>
+      <h2 id="exercise-title">Try three quick experiments</h2>
+      <p>No technical tools needed. Each activity takes about a minute and shows one idea from this guide.</p>
+
+      <h3>1. Notice how earlier words change the next guess</h3>
       <ol>
-        <li>Finish “Peanut butter and ___” with three plausible next words. Give each a rough probability.</li>
-        <li>Add context — “At the hardware store, I bought peanut butter and ___” — then revise your candidates. Earlier tokens changed what comes next.</li>
-        <li>Ask an AI product for five completions. Different answers demonstrate selection among plausible continuations, not retrieval of one stored sentence.</li>
-        <li>Paste the same short multilingual or code-heavy passage into token counters for two named model families, if available. Compare counts only after confirming which tokenizer each counter uses.</li>
-        <li>Ask for a current fact first without search, then with an authoritative source supplied. Compare prediction from learned patterns with an answer grounded in fresh context.</li>
+        <li>Finish this sentence three ways: “On the kitchen floor, the mouse moved toward the ___.”</li>
+        <li>Now finish this one: “On the computer screen, the mouse moved toward the ___.”</li>
+        <li>Compare your answers. The word “mouse” stayed the same, but the surrounding words changed what seemed likely.</li>
       </ol>
+      <p><strong>What this shows:</strong> an LLM uses the surrounding text when predicting what comes next. It is not choosing from one fixed answer.</p>
+
+      <h3>2. Watch the same text split differently</h3>
+      <ol>
+        <li>Open the <a href="https://platform.openai.com/tokenizer" target="_blank" rel="noopener noreferrer">OpenAI Tokenizer</a> in a new tab.</li>
+        <li>Select <strong>Show example</strong>. You can also replace the example with these four sentences:</li>
+      </ol>
+      <p class="token">The quick brown fox jumps over the lazy dog.<br>
+Unbelievable results require careful checking.<br>
+¿Dónde está la biblioteca más cercana?<br>
+Please rename customer_id to customerAccountId 🚀.</p>
+      <ol start="3">
+        <li>Select each model group in turn: <strong>GPT-5.x &amp; O1/3</strong>, <strong>GPT-4 &amp; GPT-3.5 (legacy)</strong>, then <strong>GPT-3 (legacy)</strong>.</li>
+        <li>Watch the colored text pieces and the token total as you switch between the three choices.</li>
+        <li>Look for words that stay whole in one choice but break into smaller pieces in another. Notice what happens to punctuation, Spanish text, the underscore, and the emoji.</li>
+      </ol>
+      <p><strong>What this shows:</strong> the text stays the same, but the pieces and total can change because model generations use different tokenization rules. A count such as “100 tokens” only has meaning when you also know which model or tokenizer produced it.</p>
+
+      <h3>3. Compare an answer with and without source material</h3>
+      <ol>
+        <li>Choose a simple question whose answer you can check on an official website, such as a library's weekend hours.</li>
+        <li>Ask the AI the question without giving it the website. Save its answer.</li>
+        <li>Copy the relevant paragraph from the official website into the chat. Ask: “Using only this paragraph, answer my question.”</li>
+        <li>Compare both answers with the website.</li>
+      </ol>
+      <p><strong>What this shows:</strong> without the source, the AI may rely on older patterns or make a plausible guess. When you provide the source, it can use that current information — but you should still check important answers.</p>
     </section>
 
-    <section class="limits" aria-labelledby="limits-title">
-      <h2 id="limits-title">Where the metaphors break down</h2>
-      <p>Autocomplete undersells the scale of what happens. Modern LLMs use many transformer layers to calculate relationships across available tokens, letting them track structure, style, instructions, examples, and topic in ways a phone keyboard cannot.</p>
-      <p>The engine, arcade token, highlighting, mixing board, and whiteboard comparisons are teaching aids, not architecture diagrams. Real systems are layered numerical computations whose behavior also depends on data, software, tools, and product design. Use each metaphor to answer one question, then stop where it stops matching reality.</p>
-    </section>
   </main>
 
   <footer>
-    <a href="#top">Back to top</a> · <a href="../Basic%20AI%20Concepts/the-contractor-simplified.html">Next: working effectively with AI</a>
+    <a href="#top">Back to top</a>
+    <span class="separator" aria-hidden="true">|</span>
+    <span>Created by <a href="https://github.com/mooreceipts" target="_blank" rel="noopener noreferrer">mooreceipts on GitHub</a></span>
   </footer>
 </div>
 
