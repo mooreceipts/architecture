@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A beginner-friendly guide to prompts, context, tools, agents, and verification when working with AI.">
+<title>The Contractor: A Practical Model for Working With AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=DM+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2630;
+    --ink-soft:#52616E;
+    --paper:#E9EDF1;
+    --card:#FFFFFF;
+    --blue:#244BD8;
+    --blue-pale:#E8EDFF;
+    --mustard:#F2B032;
+    --mustard-pale:#FFF4D6;
+    --green:#176B55;
+    --green-pale:#E5F5EF;
+    --line:#C8D2DB;
+    --dark:#17202A;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Source Sans 3",system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%}
+  a{color:var(--blue)}
+  a:focus-visible{outline:3px solid var(--mustard);outline-offset:4px}
+  .wrap{width:min(100% - 40px,920px);margin-inline:auto}
+  .skip-link{
+    position:absolute;left:16px;top:-80px;z-index:10;
+    background:var(--dark);color:#fff;padding:10px 14px;border-radius:8px;
+  }
+  .skip-link:focus{top:16px}
+
+  header{padding:68px 0 42px;text-align:center}
+  .kicker,.eyebrow,.term{
+    font-family:"DM Mono",ui-monospace,monospace;
+    letter-spacing:.12em;text-transform:uppercase;
+  }
+  .kicker{font-size:12px;color:var(--ink-soft);margin:0 0 18px}
+  h1,h2,h3{
+    font-family:"Bricolage Grotesque",system-ui,sans-serif;
+    letter-spacing:-.025em;
+  }
+  h1{
+    max-width:12ch;margin:0 auto;font-size:clamp(44px,8vw,78px);
+    font-weight:800;line-height:.98;
+  }
+  .subtitle{
+    max-width:44ch;margin:22px auto 0;color:var(--ink-soft);
+    font-size:clamp(19px,2.4vw,23px);line-height:1.42;
+  }
+  .hero-art{display:block;width:min(300px,72vw);height:auto;margin:30px auto 0;border-radius:18px}
+
+  .claim{
+    margin:0 0 28px;padding:38px clamp(24px,5vw,48px);
+    border-radius:22px;background:var(--dark);color:#fff;text-align:center;
+  }
+  .claim strong{
+    display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;
+    font-size:clamp(24px,3.5vw,32px);line-height:1.22;letter-spacing:-.02em;
+  }
+  .claim p{max-width:61ch;margin:18px auto 0;color:#C5D0DB;font-size:17px}
+
+  .jump-nav{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+    margin:0 0 62px;padding:0;list-style:none;
+  }
+  .jump-nav a{
+    display:block;padding:8px 14px;border:1px solid var(--line);
+    border-radius:999px;background:rgba(255,255,255,.64);
+    color:var(--ink);font-size:15px;font-weight:700;text-decoration:none;
+  }
+  .jump-nav a:hover{border-color:var(--blue);color:var(--blue)}
+
+  .intro{max-width:720px;margin:0 auto 28px;text-align:center}
+  .intro h2,.section-heading h2{
+    margin:0;font-size:clamp(30px,4.5vw,42px);line-height:1.08;font-weight:800;
+  }
+  .intro p,.section-heading p{margin:12px 0 0;color:var(--ink-soft)}
+
+  .map{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+    margin:28px 0 70px;padding:0;list-style:none;counter-reset:map;
+  }
+  .map li{
+    counter-increment:map;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:18px;
+  }
+  .map li::before{
+    content:"0" counter(map);display:block;margin-bottom:8px;
+    font-family:"DM Mono",ui-monospace,monospace;font-size:12px;color:var(--blue);
+  }
+  .map strong{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:20px;line-height:1.1}
+  .map span{display:block;margin-top:5px;color:var(--ink-soft);font-size:15px;line-height:1.35}
+
+  .section-heading{margin:0 0 24px}
+  .section-heading .eyebrow{margin:0 0 8px;color:var(--blue);font-size:12px}
+  .section-group{margin:0 0 76px;scroll-margin-top:22px}
+
+  .lesson{
+    display:grid;grid-template-columns:minmax(230px,34%) 1fr;gap:30px;
+    align-items:start;margin:0 0 22px;padding:28px;
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+  }
+  .lesson figure{margin:0}
+  .art-single img,.art-pair img{
+    display:block;width:100%;height:auto;
+    border-radius:14px;background:#D9E0E6;
+  }
+  .art-pair{display:grid;grid-template-columns:1fr;gap:12px}
+  .eyebrow{margin:0 0 5px;color:var(--green);font-size:11px}
+  .lesson h2{margin:0;font-size:clamp(27px,3.6vw,36px);line-height:1.08}
+  .term{
+    display:inline-block;margin:10px 0 18px;padding:4px 10px;
+    border-radius:999px;background:var(--blue-pale);color:var(--blue);font-size:11px;
+  }
+  .lesson h3{margin:18px 0 4px;font-size:19px;line-height:1.25}
+  .lesson p{margin:0 0 12px}
+  .lesson ul{margin:8px 0 14px;padding-left:22px}
+  .lesson li+li{margin-top:5px}
+  .try{
+    margin-top:20px;padding:16px 18px;border-left:4px solid var(--mustard);
+    border-radius:0 12px 12px 0;background:var(--mustard-pale);
+  }
+  .try strong{display:block;margin-bottom:4px;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+  .try p:last-child{margin-bottom:0}
+
+  .prompt-example{display:grid;gap:10px;margin-top:12px}
+  .prompt{
+    margin:0;padding:14px 16px;border:1px solid #D7C88F;border-radius:10px;
+    background:#fff;font-size:16px;line-height:1.45;
+  }
+  .prompt b{display:block;margin-bottom:3px;color:var(--ink-soft);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+
+  .workflow{
+    margin:0 0 76px;padding:34px;background:var(--dark);color:#fff;border-radius:22px;
+    scroll-margin-top:22px;
+  }
+  .workflow h2{margin:0;font-size:clamp(30px,4vw,40px);line-height:1.08}
+  .workflow>p{max-width:60ch;margin:10px 0 26px;color:#C5D0DB}
+  .workflow ol{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0;padding:0;list-style:none;counter-reset:work}
+  .workflow li{
+    counter-increment:work;padding:18px;border:1px solid #3F4C59;border-radius:14px;background:#202B36;
+  }
+  .workflow li::before{
+    content:counter(work);display:grid;place-items:center;width:28px;height:28px;margin-bottom:12px;
+    border-radius:50%;background:var(--mustard);color:var(--dark);font-weight:800;
+  }
+  .workflow strong{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:18px}
+  .workflow span{display:block;margin-top:4px;color:#C5D0DB;font-size:15px;line-height:1.4}
+
+  .trouble-grid,.safety-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px;
+  }
+  .trouble,.safety-item{
+    padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--card);
+  }
+  .trouble h3,.safety-item h3{margin:0 0 7px;font-size:20px;line-height:1.2}
+  .trouble p,.safety-item p{margin:0;color:var(--ink-soft);font-size:16px}
+  .trouble strong{color:var(--ink)}
+
+  .safety{
+    margin:0 0 76px;padding:32px;border:2px solid #D9B13D;border-radius:20px;
+    background:#FFF8E7;scroll-margin-top:22px;
+  }
+  .safety .section-heading{margin-bottom:0}
+  .safety-grid{margin-bottom:0}
+  .safety-item{background:rgba(255,255,255,.72);border-color:#E4D49E}
+
+  .cheat{margin:0 0 68px;scroll-margin-top:22px}
+  .table-wrap{overflow-x:auto;margin-top:24px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+  table{width:100%;border-collapse:collapse;min-width:680px}
+  th,td{padding:15px 18px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+  th{background:#F5F7F9;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:700}
+
+  .exercise{
+    margin:0 0 34px;padding:34px;border-radius:22px;background:var(--green-pale);border:1px solid #B5DACD;
+  }
+  .exercise h2{margin:0;font-size:clamp(28px,4vw,38px);line-height:1.1}
+  .exercise>p{margin:10px 0 18px;max-width:65ch}
+  pre{
+    margin:0;padding:18px;overflow:auto;border-radius:12px;background:#132821;color:#EAF8F3;
+    white-space:pre-wrap;font:15px/1.55 "DM Mono",ui-monospace,monospace;
+  }
+  .limits{margin:0 0 68px;padding:28px;border-radius:18px;background:#DDE4EA}
+  .limits h2{margin:0 0 8px;font-size:26px}
+  .limits p{margin:0}
+  .limits p+p{margin-top:10px}
+  footer{padding:0 0 72px;text-align:center;color:var(--ink-soft);font-size:15px}
+  footer a{color:inherit}
+
+  @media (max-width:760px){
+    body{font-size:17px}
+    .wrap{width:min(100% - 28px,920px)}
+    header{padding-top:48px}
+    .map{grid-template-columns:repeat(2,1fr)}
+    .lesson{grid-template-columns:1fr;padding:22px}
+    .lesson figure{width:min(100%,390px);margin-inline:auto}
+    .workflow ol{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:520px){
+    .map,.workflow ol,.trouble-grid,.safety-grid{grid-template-columns:1fr}
+    .claim,.workflow,.safety,.exercise{padding:24px 20px}
+    .jump-nav{justify-content:flex-start}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  @media print{
+    body{background:#fff;font-size:12pt}
+    .jump-nav,.skip-link{display:none}
+    .lesson,.workflow,.safety,.exercise{break-inside:avoid}
+    .workflow{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+    .workflow>p,.workflow li span{color:var(--ink-soft)}
+    .workflow li{background:#fff;border-color:var(--line)}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to guide</a>
+
+<div class="wrap">
+  <header id="top">
+    <p class="kicker">A beginner's guide to working with AI</p>
+    <h1>The Contractor</h1>
+    <p class="subtitle">A practical model for understanding prompts, context, tools, agents, and review—without requiring a technical background.</p>
+    <img class="hero-art" src="images/hero.jpg" alt="An illustrated contractor arriving outside an AI workplace with a question mark overhead.">
+  </header>
+
+  <section class="claim" aria-labelledby="main-idea">
+    <strong id="main-idea">Think of an AI model as a capable new contractor.</strong>
+    <p>It can help immediately, but it does not automatically know your goal, private information, standards, or what a correct result looks like. Better work comes from clear instructions, relevant context, approved tools, appropriate autonomy, and review.</p>
+  </section>
+
+  <nav aria-label="Page sections">
+    <ul class="jump-nav">
+      <li><a href="#overview">Six-part map</a></li>
+      <li><a href="#start">Start here</a></li>
+      <li><a href="#next">Next level</a></li>
+      <li><a href="#workflow">Workflow</a></li>
+      <li><a href="#safety">Safety</a></li>
+      <li><a href="#cheat-sheet">Cheat sheet</a></li>
+    </ul>
+  </nav>
+
+  <main id="main">
+    <section id="overview" aria-labelledby="overview-title">
+      <div class="intro">
+        <h2 id="overview-title">Six things shape useful AI work</h2>
+        <p>You do not need to master all six at once. Begin with instructions, context, and verification. Add tools, reusable workflows, and agents when a task demands them.</p>
+      </div>
+
+      <ol class="map">
+        <li><strong>Instructions</strong><span>What should it accomplish?</span></li>
+        <li><strong>Context</strong><span>What must it know right now?</span></li>
+        <li><strong>Verification</strong><span>How will you check the result?</span></li>
+        <li><strong>Model</strong><span>What underlying capability is available?</span></li>
+        <li><strong>Tools &amp; access</strong><span>What can it read, use, or change?</span></li>
+        <li><strong>Autonomy</strong><span>How independently may it work?</span></li>
+      </ol>
+    </section>
+
+    <section class="section-group" id="start" aria-labelledby="start-title">
+      <div class="section-heading">
+        <p class="eyebrow">Start here</p>
+        <h2 id="start-title">Three habits that improve your next conversation</h2>
+        <p>These matter whether you use a phone app, website, or advanced workspace.</p>
+      </div>
+
+      <article class="lesson" id="instructions">
+        <figure class="art-pair" aria-hidden="true">
+          <img src="images/ticket.jpg" alt="">
+          <img src="images/runbooks.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">01 · The task brief and runbook</p>
+          <h2>Give clear instructions</h2>
+          <span class="term">Prompt + skill</span>
+
+          <h3>What it means</h3>
+          <p>A <strong>prompt</strong> is the brief for one interaction. A <strong>skill</strong> or runbook is a reusable set of instructions, examples, and checks for work you perform repeatedly.</p>
+
+          <h3>Why it matters</h3>
+          <p>When a request is ambiguous, the model must guess. State the outcome, relevant background, audience, constraints, and what success looks like. A short prompt can work when the task is already clear; detail is useful when it removes uncertainty.</p>
+
+          <div class="try">
+            <strong>Try this</strong>
+            <div class="prompt-example">
+              <p class="prompt"><b>Vague</b>Write an email about the launch delay.</p>
+              <p class="prompt"><b>Clearer</b>Draft a 120-word email to beta customers explaining a two-week launch delay. Use a calm, direct tone. Avoid assigning blame. End with the revised date. Before drafting, ask up to three questions about missing facts.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson" id="context">
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/context.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">02 · The current project packet</p>
+          <h2>Provide relevant context</h2>
+          <span class="term">Context window</span>
+
+          <h3>What it means</h3>
+          <p>The context window is the information a model can consider during the current interaction: your messages, its replies, system instructions, and any supplied files or tool results.</p>
+
+          <h3>Why it matters</h3>
+          <p>Context is working material, not guaranteed permanent memory. Some apps save chat history or offer memory features, but behavior varies. Never assume the model remembers information from another session.</p>
+          <p>More material is not always better. Supply the few sources that matter, identify why each matters, and remove outdated or conflicting material.</p>
+
+          <div class="try">
+            <strong>Try this</strong>
+            <p>Say: “Use only the attached policy and price sheet. The policy controls eligibility; the price sheet controls amounts. If either source lacks an answer, identify the missing information instead of guessing.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson" id="verification">
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/review.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">03 · Review before release</p>
+          <h2>Check important work</h2>
+          <span class="term">Verification</span>
+
+          <h3>What it means</h3>
+          <p>Models generate plausible outputs and can include unsupported details, bad calculations, broken citations, or misunderstood requirements. Clear instructions reduce errors; they do not guarantee correctness.</p>
+
+          <h3>Why it matters</h3>
+          <p>Match review effort to consequence. A brainstorming list needs little review. Medical, legal, financial, security, publication, or system-changing work needs authoritative sources and qualified human judgment.</p>
+
+          <div class="try">
+            <strong>Check four things</strong>
+            <ul>
+              <li>Facts and citations match original sources.</li>
+              <li>Calculations can be reproduced.</li>
+              <li>Output follows every stated constraint.</li>
+              <li>Any action affects only intended people, files, or systems.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-group" id="next" aria-labelledby="next-title">
+      <div class="section-heading">
+        <p class="eyebrow">Next level</p>
+        <h2 id="next-title">Capability, access, and independence</h2>
+        <p>These concepts explain why the same request behaves differently across AI products and workflows.</p>
+      </div>
+
+      <article class="lesson" id="model">
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/hire.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">04 · The underlying capability</p>
+          <h2>Choose the model after defining the job</h2>
+          <span class="term">Model</span>
+
+          <h3>What it means</h3>
+          <p>The model is the trained system underneath the app. Different models vary in speed, cost, input types, reasoning performance, writing style, and how much context they can handle.</p>
+
+          <h3>Why it matters</h3>
+          <p>A stronger model may help with difficult work, but missing instructions, missing evidence, or missing access can still limit it. Define the task and evaluation method before comparing models.</p>
+
+          <div class="try">
+            <strong>Try this</strong>
+            <p>Test candidates with the same real task and the same scoring checklist. Compare correctness, usefulness, time, and cost—not only how confident the answer sounds.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson" id="tools">
+        <figure class="art-pair" aria-hidden="true">
+          <img src="images/harness.jpg" alt="">
+          <img src="images/mcp.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">05 · The workbench and access badge</p>
+          <h2>Give only the tools and access required</h2>
+          <span class="term">Platform + connectors</span>
+
+          <h3>What it means</h3>
+          <p>The <strong>platform</strong> is the environment around the model: chat interface, file workspace, code runner, browser, or other tools. <strong>Connectors</strong> link that environment to approved applications and data. MCP is one standard used to build such connections.</p>
+
+          <h3>Why it matters</h3>
+          <p>Tools can let AI inspect real documents, search approved sources, calculate, create files, or take actions. A connection is not universal access; permissions still control what it can see and do.</p>
+
+          <div class="try">
+            <strong>Try this</strong>
+            <p>Grant the smallest useful scope. Prefer read-only access first. Name approved sources, forbidden actions, confirmation points, and the condition that means “stop and ask.”</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson" id="autonomy">
+        <figure class="art-single" aria-hidden="true">
+          <img src="images/agents.jpg" alt="">
+        </figure>
+        <div>
+          <p class="eyebrow">06 · A longer work loop</p>
+          <h2>Choose an appropriate level of autonomy</h2>
+          <span class="term">Agent</span>
+
+          <h3>What it means</h3>
+          <p>Chat usually handles one exchange at a time. An agent can pursue an objective through several steps: make a plan, use tools, observe results, adjust, and continue until it finishes or becomes blocked.</p>
+
+          <h3>Why it matters</h3>
+          <p>A longer leash saves effort on bounded, testable work. It also increases the effect of vague goals, excessive permissions, and weak stop conditions. Multiple agents add coordination costs as well as capacity.</p>
+
+          <div class="try">
+            <strong>Try this</strong>
+            <p>Define the goal, allowed tools, limits, success test, and escalation rule. Start with a reversible task and require approval before publishing, purchasing, deleting, messaging, or changing important systems.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="workflow" id="workflow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">A reliable six-step workflow</h2>
+      <p>Do not search for one perfect prompt. Treat useful AI work as a short collaboration and review loop.</p>
+      <ol>
+        <li><strong>Define the outcome</strong><span>State who needs what, why, and what success looks like.</span></li>
+        <li><strong>Invite questions</strong><span>Let the model identify missing facts before producing work.</span></li>
+        <li><strong>Supply context</strong><span>Provide relevant sources, constraints, and examples.</span></li>
+        <li><strong>Plan, then draft</strong><span>For complex work, inspect the approach before the full output.</span></li>
+        <li><strong>Critique and revise</strong><span>Ask what may be wrong, weak, missing, or unsupported.</span></li>
+        <li><strong>Verify and save</strong><span>Check the result. Turn successful repeated steps into a runbook.</span></li>
+      </ol>
+    </section>
+
+    <section class="section-group" aria-labelledby="trouble-title">
+      <div class="section-heading">
+        <p class="eyebrow">Troubleshooting</p>
+        <h2 id="trouble-title">When results disappoint</h2>
+        <p>Diagnose the missing ingredient before adding more words or switching products.</p>
+      </div>
+      <div class="trouble-grid">
+        <article class="trouble">
+          <h3>“The answer is generic.”</h3>
+          <p><strong>Likely gap:</strong> unclear audience, goal, or source material. Add relevant context and a concrete success test.</p>
+        </article>
+        <article class="trouble">
+          <h3>“It invented a detail.”</h3>
+          <p><strong>Likely gap:</strong> missing evidence or weak verification. Require source-backed claims, mark uncertainty, then check originals.</p>
+        </article>
+        <article class="trouble">
+          <h3>“It forgot earlier information.”</h3>
+          <p><strong>Likely gap:</strong> information fell outside available context or was never saved. Restate the critical facts or attach a concise project brief.</p>
+        </article>
+        <article class="trouble">
+          <h3>“It cannot complete the task.”</h3>
+          <p><strong>Likely gap:</strong> missing tool, permission, or supported action. Check the platform before rewriting the prompt.</p>
+        </article>
+        <article class="trouble">
+          <h3>“The agent wandered.”</h3>
+          <p><strong>Likely gap:</strong> vague goal, no checkpoints, or weak stop conditions. Narrow the task and require staged approval.</p>
+        </article>
+        <article class="trouble">
+          <h3>“A stronger model did not help.”</h3>
+          <p><strong>Likely gap:</strong> model capability was not the bottleneck. Recheck instructions, context, access, and evaluation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="safety" id="safety" aria-labelledby="safety-title">
+      <div class="section-heading">
+        <p class="eyebrow">Before connecting anything</p>
+        <h2 id="safety-title">Use access deliberately</h2>
+        <p>Convenience does not remove responsibility. Match permissions and oversight to possible harm.</p>
+      </div>
+      <div class="safety-grid">
+        <article class="safety-item">
+          <h3>Protect information</h3>
+          <p>Do not provide confidential, personal, regulated, or credential data unless policy and product controls allow it.</p>
+        </article>
+        <article class="safety-item">
+          <h3>Limit permissions</h3>
+          <p>Connect only required systems and data. Prefer narrow, temporary, and read-only access where possible.</p>
+        </article>
+        <article class="safety-item">
+          <h3>Confirm consequences</h3>
+          <p>Require human approval before external messages, purchases, publication, deletion, or important system changes.</p>
+        </article>
+        <article class="safety-item">
+          <h3>Keep evidence</h3>
+          <p>Retain source links, test results, change previews, and other records needed to review important work.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cheat" id="cheat-sheet" aria-labelledby="cheat-title">
+      <div class="section-heading">
+        <p class="eyebrow">Keep this nearby</p>
+        <h2 id="cheat-title">Six-question cheat sheet</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Concept</th><th>Question to ask</th><th>Useful action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Instructions</td><td>What exactly should be accomplished?</td><td>State outcome, audience, constraints, and success criteria.</td></tr>
+            <tr><td>Context</td><td>What must the model know right now?</td><td>Supply relevant sources and explain how each should be used.</td></tr>
+            <tr><td>Verification</td><td>How will mistakes be detected?</td><td>Check facts, calculations, citations, constraints, and effects.</td></tr>
+            <tr><td>Model</td><td>Does this task need different capability?</td><td>Compare models using the same task and scoring method.</td></tr>
+            <tr><td>Tools &amp; access</td><td>What must it read, use, or change?</td><td>Provide only necessary tools and least-privilege access.</td></tr>
+            <tr><td>Autonomy</td><td>How independently may it proceed?</td><td>Define checkpoints, stop conditions, and approval boundaries.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exercise" aria-labelledby="exercise-title">
+      <h2 id="exercise-title">Try one real task now</h2>
+      <p>Choose something you already understand well enough to judge. Replace the brackets, then continue through questions, draft, critique, and verification.</p>
+      <pre>Goal: [What should be accomplished?]
+Audience: [Who will use or read it?]
+Context: [What facts, files, or examples matter?]
+Constraints: [Length, tone, format, rules, deadline, forbidden actions]
+Success: [How will I recognize a good result?]
+
+Before starting, ask up to three questions about missing information.
+Then propose a short plan. Do not invent missing facts; mark uncertainty.</pre>
+    </section>
+
+    <section class="limits" aria-labelledby="limits-title">
+      <h2 id="limits-title">Where the comparison stops</h2>
+      <p>The contractor is a teaching metaphor, not a description of consciousness or human behavior. AI does not become loyal, nervous, offended, or personally invested in the work.</p>
+      <p>Models learn statistical patterns during training; they do not automatically learn your organization while chatting. Product features may save history or memory, so check the specific tool instead of assuming information will persist.</p>
+    </section>
+  </main>
+
+  <footer>
+    <a href="#top">Back to top</a>
+  </footer>
+</div>
+
+</body>
+</html>
