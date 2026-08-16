@@ -1,4 +1,4 @@
-[![GitHub Card](./assets/card.svg)](https://github.com/mooreceipts/MusingMoo)
+[![GitHub Card](./assets/card.svg)](https://github.com/the-matt-moo/MusingMoo)
 
 ---
 

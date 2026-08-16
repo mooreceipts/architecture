@@ -36,7 +36,7 @@
     stroke="#30363d" stroke-width="1.5" stroke-dasharray="6 4"/>
   <!-- Owner / repo name on one line -->
   <text x="510" y="235" class="repo">
-    <tspan class="owner">mooreceipts/</tspan><tspan>MusingMoo</tspan>
+    <tspan class="owner">the-matt-moo/</tspan><tspan>MusingMoo</tspan>
   </text>
   
   <!-- Description -->
