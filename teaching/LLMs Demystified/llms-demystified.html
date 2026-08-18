@@ -251,13 +251,88 @@
   }
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
   @media print{
-    body{background:#fff;font-size:12pt}
-    .jump-nav,.skip-link{display:none}
-    .lesson,.pipeline-track{break-inside:avoid}
-    .pipeline{break-inside:auto}
-    .pipeline{background:#fff;color:var(--ink);border:2px solid var(--ink)}
-    .pipeline>p,.pipeline li span{color:var(--ink-soft)}
-    .pipeline li{background:#fff;border-color:var(--line)}
+    @page { size: letter; margin: 10mm 12mm; }
+    body{background:#fff;font-size:10.5pt;line-height:1.4;color:var(--ink)}
+    .jump-nav,.skip-link{display:none !important}
+    header{padding:10px 0 14px;text-align:center}
+    h1{font-size:26pt;margin:0 auto;line-height:1.05}
+    .subtitle{font-size:11pt;max-width:50ch;margin:8px auto 0;line-height:1.35}
+    .hero-art{width:160px;margin:10px auto 0;border-radius:12px}
+
+    .claim{margin:12px 0 16px;padding:14px 20px;border-radius:14px;background:var(--dark);color:#fff;text-align:center;break-inside:avoid}
+    .claim strong{font-size:15pt;line-height:1.2}
+    .claim p{margin:8px auto 0;font-size:10pt;color:#C9C5DE}
+
+    .intro{max-width:100%;margin:0 auto 10px;text-align:center;break-after:avoid !important;page-break-after:avoid !important}
+    .intro h2,.section-heading h2{font-size:17pt;line-height:1.12;break-after:avoid !important;page-break-after:avoid !important}
+    .intro p,.section-heading p{margin:3px 0 0;font-size:9.5pt;break-after:avoid !important;page-break-after:avoid !important}
+
+    .map{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;padding:0;list-style:none}
+    .map li{flex:1 1 21%;padding:8px 10px;border-radius:8px;background:var(--card);border:1px solid var(--line);break-inside:avoid}
+    .map strong{font-size:10.5pt}
+    .map span{font-size:9pt;margin-top:2px}
+
+    .section-heading{margin:0 0 8px;break-inside:avoid !important;page-break-inside:avoid !important;break-after:avoid !important;page-break-after:avoid !important}
+    .section-heading .eyebrow,.section-heading h2,.section-heading p{break-inside:avoid !important;page-break-inside:avoid !important;break-after:avoid !important;page-break-after:avoid !important}
+    .section-heading + *, .section-heading + .lesson, .section-heading + article{break-before:avoid !important;page-break-before:avoid !important}
+    .section-group{margin:0 0 16px;break-inside:auto}
+
+    .lesson{display:flex;flex-direction:row;gap:16px;align-items:flex-start;margin:0 0 14px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;break-inside:avoid;page-break-inside:avoid}
+    .lesson figure{flex:0 0 26%;max-width:26%;margin:0}
+    .lesson>div{flex:1 1 72%;min-width:0}
+    .art-single img,.art-pair img{width:100%;height:auto;border-radius:10px;display:block}
+    .art-pair{display:flex;flex-direction:column;gap:6px}
+    .lesson h2{font-size:16pt;line-height:1.1;margin:0 0 4px}
+    .lesson h3{font-size:11pt;line-height:1.2;margin:10px 0 2px}
+    .lesson p{margin:0 0 6px;font-size:10pt;line-height:1.4}
+    .lesson ul{margin:4px 0 6px;padding-left:18px;font-size:10pt}
+    .lesson li+li{margin-top:2px}
+    .term{margin:4px 0 10px;padding:2px 8px;font-size:9pt}
+    .try{margin-top:8px;padding:8px 12px;border-radius:0 8px 8px 0;font-size:9.5pt}
+    .try strong{margin-bottom:2px}
+
+    .stack{gap:4px;margin:10px 0}
+    .stack div{padding:8px 12px;font-size:9.5pt}
+
+    .token-compare{gap:6px;margin:10px 0}
+    .token-row{padding:8px 12px;gap:8px}
+    .currency-note{margin:12px 0 0;padding:12px;font-size:9.5pt}
+    .currency-note h3{font-size:11pt;margin:0 0 4px}
+    .currency-note ul{margin:4px 0 6px;padding-left:18px}
+
+    .probabilities{gap:4px;margin:8px 0}
+    .probability{font-size:9.5pt}
+
+    .pipeline{margin:0 0 20px;padding:18px;border-radius:16px;background:var(--dark);color:#fff;break-inside:avoid}
+    .pipeline h2{font-size:18pt}
+    .pipeline>p{margin:6px 0 12px;font-size:10pt}
+    .pipeline-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .pipeline-track{flex:1 1 45%;padding:12px;border-radius:12px;background:#20233A;border:1px solid #3A3D52;break-inside:avoid}
+    .pipeline-track h3{font-size:13pt;margin:0 0 4px}
+    .pipeline-track>p{margin:0 0 10px;font-size:9.5pt}
+    .pipeline ol{gap:6px;margin:0;padding:0;list-style:none}
+    .pipeline li{padding:8px 10px;border-radius:8px;background:#292C45;border:1px solid #3A3D52;display:grid;grid-template-columns:22px 1fr;column-gap:8px;align-items:start}
+    .pipeline li::before{width:22px;height:22px;font-size:9pt}
+    .pipeline strong{font-size:10.5pt}
+    .pipeline span{font-size:9pt;margin-top:2px}
+
+    .myth-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .myth{flex:1 1 45%;padding:12px;border-radius:10px;break-inside:avoid}
+    .myth h3{font-size:12pt;margin-bottom:4px}
+    .myth p{font-size:9.5pt}
+
+    .cheat{margin:0 0 20px;break-inside:avoid}
+    .table-wrap{margin-top:10px;border-radius:12px}
+    th,td{padding:8px 10px;font-size:9.5pt}
+
+    .exercise{margin:0 0 20px;padding:18px;border-radius:16px;break-inside:avoid}
+    .exercise h2{font-size:18pt}
+    .exercise>p{margin:6px 0 10px;font-size:10pt}
+    .exercise h3{font-size:12pt;margin:12px 0 4px}
+    .exercise ol{margin:0;padding-left:18px;font-size:9.5pt}
+
+    footer{padding:4px 0 0;margin:0 !important;font-size:8.5pt;text-align:center;break-inside:avoid;break-before:avoid;page-break-after:avoid;break-after:avoid}
+    .exercise:last-of-type, footer { margin-bottom: 0 !important; }
   }
 </style>
 </head>
