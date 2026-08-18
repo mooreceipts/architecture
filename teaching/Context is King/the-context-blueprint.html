@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A beginner-friendly guide explaining why context dictates AI output quality, how to provide it, and practical ways to improve context iteratively.">
+<title>The Context Blueprint: Master the Fuel of AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;family=DM+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2630;
+    --ink-soft:#52616E;
+    --paper:#E9EDF1;
+    --card:#FFFFFF;
+    --blue:#244BD8;
+    --blue-pale:#E8EDFF;
+    --mustard:#F2B032;
+    --mustard-pale:#FFF4D6;
+    --green:#176B55;
+    --green-pale:#E5F5EF;
+    --red:#C0392B;
+    --red-pale:#FADBD8;
+    --line:#C8D2DB;
+    --dark:#17202A;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Source Sans 3",system-ui,sans-serif;
+    font-size:18px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%}
+  a{color:var(--blue)}
+  a:focus-visible{outline:3px solid var(--mustard);outline-offset:4px}
+  .wrap{width:min(100% - 40px,920px);margin-inline:auto}
+  .skip-link{
+    position:absolute;left:16px;top:-80px;z-index:10;
+    background:var(--dark);color:#fff;padding:10px 14px;border-radius:8px;
+  }
+  .skip-link:focus{top:16px}
+
+  header{padding:68px 0 42px;text-align:center}
+  .kicker,.eyebrow,.term{
+    font-family:"DM Mono",ui-monospace,monospace;
+    letter-spacing:.12em;text-transform:uppercase;
+  }
+  .kicker{font-size:12px;color:var(--ink-soft);margin:0 0 18px}
+  h1,h2,h3{
+    font-family:"Bricolage Grotesque",system-ui,sans-serif;
+    letter-spacing:-.025em;
+  }
+  h1{
+    max-width:14ch;margin:0 auto;font-size:clamp(40px,7.5vw,72px);
+    font-weight:800;line-height:.98;
+  }
+  .subtitle{
+    max-width:46ch;margin:22px auto 0;color:var(--ink-soft);
+    font-size:clamp(19px,2.4vw,23px);line-height:1.42;
+  }
+  .hero-art{display:block;width:min(320px,75vw);height:auto;margin:30px auto 0;border-radius:18px;background:#D9E0E6;min-height:180px;object-fit:cover}
+
+  .claim{
+    margin:0 0 28px;padding:38px clamp(24px,5vw,48px);
+    border-radius:22px;background:var(--dark);color:#fff;text-align:center;
+  }
+  .claim strong{
+    display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;
+    font-size:clamp(24px,3.5vw,32px);line-height:1.22;letter-spacing:-.02em;
+  }
+  .claim p{max-width:64ch;margin:18px auto 0;color:#C5D0DB;font-size:17px}
+
+  .quick-start{
+    margin:0 0 28px;padding:24px clamp(20px,4vw,32px);
+    border:1px solid #B5DACD;border-radius:18px;background:var(--green-pale);
+  }
+  .quick-start h2{margin:0;font-size:clamp(25px,3.5vw,33px);line-height:1.12}
+  .quick-start>p{max-width:64ch;margin:8px 0 18px}
+  .quick-start-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:0;padding:0;list-style:none}
+  .quick-start-grid li{padding:13px 15px;border:1px solid #B5DACD;border-radius:10px;background:#fff;font-size:16px;line-height:1.38}
+  .quick-start-grid strong{display:block;margin-bottom:3px;color:var(--green)}
+
+  .safety-note{
+    margin-top:16px;padding:14px 16px;border-left:4px solid var(--red);
+    border-radius:0 10px 10px 0;background:var(--red-pale);font-size:16px;line-height:1.45;
+  }
+  .safety-note strong{display:block;margin-bottom:3px}
+
+  .jump-nav{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:8px;
+    margin:0 0 62px;padding:0;list-style:none;
+  }
+  .jump-nav a{
+    display:block;padding:8px 14px;border:1px solid var(--line);
+    border-radius:999px;background:rgba(255,255,255,.64);
+    color:var(--ink);font-size:15px;font-weight:700;text-decoration:none;
+  }
+  .jump-nav a:hover{border-color:var(--blue);color:var(--blue)}
+
+  .intro{max-width:720px;margin:0 auto 28px;text-align:center}
+  .intro h2,.section-heading h2{
+    margin:0;font-size:clamp(30px,4.5vw,42px);line-height:1.08;font-weight:800;
+  }
+  .intro p,.section-heading p{margin:12px 0 0;color:var(--ink-soft)}
+
+  .map{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+    margin:28px 0 70px;padding:0;list-style:none;counter-reset:map;
+  }
+  .map li{
+    counter-increment:map;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:18px;
+  }
+  .map li::before{
+    content:"0" counter(map);display:block;margin-bottom:8px;
+    font-family:"DM Mono",ui-monospace,monospace;font-size:12px;color:var(--blue);
+  }
+  .map strong{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:20px;line-height:1.1}
+  .map span{display:block;margin-top:5px;color:var(--ink-soft);font-size:15px;line-height:1.35}
+
+  .section-heading{margin:0 0 24px}
+  .section-heading .eyebrow{margin:0 0 8px;color:var(--blue);font-size:12px}
+  .section-group{margin:0 0 76px;scroll-margin-top:22px}
+
+  .lesson{
+    display:grid;grid-template-columns:minmax(230px,34%) 1fr;gap:30px;
+    align-items:start;margin:0 0 22px;padding:28px;
+    background:var(--card);border:1px solid var(--line);border-radius:20px;
+  }
+  .lesson.lesson-full{
+    display:block;
+  }
+  .lesson figure{margin:0}
+  .art-single img,.art-pair img{
+    display:block;width:100%;height:auto;
+    border-radius:14px;background:#D9E0E6;min-height:140px;object-fit:cover;
+  }
+  .art-pair{display:grid;grid-template-columns:1fr;gap:12px}
+  .eyebrow{margin:0 0 5px;color:var(--green);font-size:11px}
+  .lesson h3{margin:0;font-size:clamp(27px,3.6vw,36px);line-height:1.08}
+  .term{
+    display:inline-block;margin:10px 0 18px;padding:4px 10px;
+    border-radius:999px;background:var(--blue-pale);color:var(--blue);font-size:11px;
+  }
+  .lesson h4{margin:18px 0 4px;font-size:19px;line-height:1.25}
+  .lesson p{margin:0 0 12px}
+  .lesson ul{margin:8px 0 14px;padding-left:22px}
+  .lesson li+li{margin-top:5px}
+
+  .try{
+    margin-top:20px;padding:16px 18px;border-left:4px solid var(--mustard);
+    border-radius:0 12px 12px 0;background:var(--mustard-pale);
+  }
+  .try strong{display:block;margin-bottom:4px;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+  .try p:last-child{margin-bottom:0}
+
+  .prompt-example{display:grid;gap:10px;margin-top:12px}
+  .prompt{
+    margin:0;padding:14px 16px;border:1px solid #D7C88F;border-radius:10px;
+    background:#fff;font-size:16px;line-height:1.45;
+  }
+  .prompt.bad-prompt{border-color:var(--red-pale);background:#FFF5F5}
+  .prompt.good-prompt{border-color:#B5DACD;background:#F2FAF7}
+  .prompt b{display:block;margin-bottom:3px;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .prompt.bad-prompt b{color:var(--red)}
+  .prompt.good-prompt b{color:var(--green)}
+
+  .contrast-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px;width:100%}
+  .contrast-card{padding:18px;border-radius:14px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;justify-content:space-between}
+  .contrast-card.bad{border-color:#F5C6CB;background:#FFF8F8}
+  .contrast-card.good{border-color:#B8E2D6;background:#F4FCF9}
+  .contrast-card h4{margin:0 0 8px;font-family:"DM Mono",monospace;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+  .contrast-card.bad h4{color:var(--red)}
+  .contrast-card.good h4{color:var(--green)}
+  .contrast-card p{font-size:15px;margin:0 0 8px;line-height:1.45}
+  .contrast-card .annotation{font-size:13.5px;color:var(--ink-soft);font-style:italic;margin-top:auto;padding-top:8px}
+
+  .workflow{
+    margin:0 0 76px;padding:34px;background:var(--dark);color:#fff;border-radius:22px;
+    scroll-margin-top:22px;
+  }
+  .workflow h2{margin:0;font-size:clamp(30px,4vw,40px);line-height:1.08}
+  .workflow>p{max-width:60ch;margin:10px 0 26px;color:#C5D0DB}
+  .workflow ol{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0;padding:0;list-style:none;counter-reset:work}
+  .workflow li{
+    counter-increment:work;padding:18px;border:1px solid #3F4C59;border-radius:14px;background:#202B36;
+  }
+  .workflow li::before{
+    content:counter(work);display:grid;place-items:center;width:28px;height:28px;margin-bottom:12px;
+    border-radius:50%;background:var(--mustard);color:var(--dark);font-weight:800;
+  }
+  .workflow strong{display:block;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-size:18px}
+  .workflow span{display:block;margin-top:4px;color:#C5D0DB;font-size:15px;line-height:1.4}
+
+  .trouble-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px;
+  }
+  .trouble{
+    padding:20px;border:1px solid var(--line);border-radius:14px;background:var(--card);
+  }
+  .trouble h3{margin:0 0 7px;font-size:20px;line-height:1.2}
+  .trouble p{margin:0;color:var(--ink-soft);font-size:16px}
+  .trouble strong{color:var(--ink)}
+
+  .cheat{margin:0 0 68px;scroll-margin-top:22px}
+  .table-wrap{overflow-x:auto;margin-top:24px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+  table{width:100%;border-collapse:collapse;min-width:680px}
+  th,td{padding:15px 18px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+  th{background:#F5F7F9;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:700}
+
+  .exercise{
+    margin:0 0 34px;padding:34px;border-radius:22px;background:var(--green-pale);border:1px solid #B5DACD;
+  }
+  .exercise h2{margin:0;font-size:clamp(28px,4vw,38px);line-height:1.1}
+  .exercise>p{margin:10px 0 18px;max-width:65ch}
+  pre{
+    margin:0;padding:18px;overflow:auto;border-radius:12px;background:#132821;color:#EAF8F3;
+    white-space:pre-wrap;font:15px/1.55 "DM Mono",ui-monospace,monospace;
+  }
+
+  .resources{
+    margin:0 0 68px;padding:32px;border:1px solid var(--line);border-radius:22px;background:var(--card);
+  }
+  .resources h2{margin:0 0 12px;font-size:28px}
+  .resources-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:20px}
+  .resource-item{padding:16px;border:1px solid var(--line);border-radius:12px;background:#F8FAFC}
+  .resource-item h3{margin:0 0 6px;font-size:18px}
+  .resource-item p{margin:0;font-size:15px;color:var(--ink-soft)}
+
+  footer{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:0 0 72px;text-align:center;color:var(--ink-soft);font-size:15px}
+  footer a{color:inherit}
+  footer .separator{color:var(--line)}
+
+  @media (max-width:760px){
+    body{font-size:17px}
+    .wrap{width:min(100% - 28px,920px)}
+    header{padding-top:48px}
+    .map{grid-template-columns:repeat(2,1fr)}
+    .lesson{grid-template-columns:1fr;padding:22px}
+    .lesson figure{width:min(100%,390px);margin-inline:auto}
+    .workflow ol{grid-template-columns:repeat(2,1fr)}
+    .contrast-grid,.resources-grid{grid-template-columns:1fr}
+  }
+  @media (max-width:520px){
+    .map,.workflow ol,.trouble-grid,.quick-start-grid{grid-template-columns:1fr}
+    .claim,.workflow,.exercise,.resources{padding:24px 20px}
+    .jump-nav{justify-content:flex-start}
+    .table-wrap{overflow:visible;border:0;background:transparent}
+    table,tbody,tr,td{display:block;width:100%;min-width:0}
+    thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    tr{margin-bottom:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden}
+    td{padding:10px 14px;border-bottom:1px solid var(--line)}
+    td:last-child{border-bottom:0}
+    td::before{content:attr(data-label);display:block;margin-bottom:2px;color:var(--ink-soft);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  @media print{
+    @page { size: letter; margin: 8mm 10mm; }
+    html, body { background:#fff; font-size:9pt; line-height:1.3; color:var(--ink); margin:0; padding:0; }
+    .wrap { width:100% !important; max-width:100% !important; margin:0 !important; padding:0 !important; }
+    .jump-nav,.skip-link{display:none !important}
+    header{padding:6px 0 10px;text-align:center}
+    h1{font-size:22pt;margin:0 auto;line-height:1.05}
+    .subtitle{font-size:10.5pt;max-width:52ch;margin:6px auto 0;line-height:1.3}
+    .hero-art{width:140px;min-height:80px;margin:8px auto 0;border-radius:10px}
+
+    .claim{margin:10px 0 12px;padding:12px 16px;border-radius:12px;background:var(--dark);color:#fff;text-align:center;break-inside:avoid}
+    .claim strong{font-size:14pt;line-height:1.2}
+    .claim p{margin:6px auto 0;font-size:9.5pt;color:#C5D0DB}
+
+    .intro{max-width:100%;margin:0 auto 10px;text-align:center;break-after:avoid !important;page-break-after:avoid !important}
+    .intro h2,.section-heading h2{font-size:17pt;line-height:1.12;break-after:avoid !important;page-break-after:avoid !important}
+    .intro p,.section-heading p{margin:3px 0 0;font-size:9.5pt;break-after:avoid !important;page-break-after:avoid !important}
+
+    .map{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px;padding:0;list-style:none}
+    .map li{flex:1 1 28%;padding:8px 10px;border-radius:8px;background:var(--card);border:1px solid var(--line);break-inside:avoid}
+    .map strong{font-size:11pt}
+    .map span{font-size:9pt;margin-top:2px}
+
+    .section-heading{margin:0 0 8px;break-inside:avoid !important;page-break-inside:avoid !important;break-after:avoid !important;page-break-after:avoid !important}
+    .section-heading .eyebrow,.section-heading h2,.section-heading p{break-inside:avoid !important;page-break-inside:avoid !important;break-after:avoid !important;page-break-after:avoid !important}
+    .section-heading + *, .section-heading + .lesson, .section-heading + article{break-before:avoid !important;page-break-before:avoid !important}
+    .section-group{margin:0 0 16px;break-inside:auto}
+
+    .lesson{display:flex;flex-direction:row;gap:14px;align-items:flex-start;margin:0 0 12px;padding:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;break-inside:avoid;page-break-inside:avoid}
+    .lesson figure{flex:0 0 24%;max-width:24%;margin:0}
+    .lesson>div{flex:1 1 74%;min-width:0}
+    .art-single img,.art-pair img{width:100%;height:auto;min-height:70px;border-radius:8px;display:block}
+    .art-pair{display:flex;flex-direction:column;gap:5px}
+    .lesson h3{font-size:15pt;line-height:1.1;margin:0 0 3px}
+    .lesson h4{font-size:10.5pt;line-height:1.2;margin:8px 0 2px}
+    .lesson p{margin:0 0 5px;font-size:9.5pt;line-height:1.35}
+    .lesson ul{margin:3px 0 5px;padding-left:16px;font-size:9.5pt}
+    .lesson li+li{margin-top:2px}
+    .term{margin:3px 0 8px;padding:2px 6px;font-size:8.5pt}
+    .try{margin-top:6px;padding:6px 10px;border-radius:0 6px 6px 0;font-size:9pt}
+    .try strong{margin-bottom:2px}
+    .prompt-example{gap:5px;margin-top:5px}
+    .prompt{padding:6px 8px;font-size:9pt;border-radius:6px}
+
+    .contrast-grid{display:flex;flex-direction:row;gap:8px;margin-top:8px}
+    .contrast-card{flex:1 1 50%;padding:8px 10px;font-size:9pt}
+
+    .workflow{margin:0 0 16px;padding:14px;border-radius:14px;background:var(--dark);color:#fff;break-inside:avoid}
+    .workflow h2{font-size:16pt}
+    .workflow>p{margin:4px 0 10px;font-size:9.5pt}
+    .workflow ol{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+    .workflow li{flex:1 1 28%;padding:8px 10px;border-radius:8px;background:#202B36;border:1px solid #3F4C59;break-inside:avoid}
+    .workflow li::before{width:20px;height:20px;margin-bottom:4px;font-size:8.5pt}
+    .workflow strong{font-size:10.5pt}
+    .workflow span{font-size:9pt;margin-top:2px}
+
+    .trouble-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .trouble{flex:1 1 45%;padding:10px;border-radius:8px;break-inside:avoid}
+    .trouble h3{font-size:11pt;margin-bottom:3px}
+    .trouble p{font-size:9pt}
+
+    .cheat{margin:0 0 16px;break-inside:avoid}
+    .table-wrap{margin-top:8px;border-radius:10px}
+    th,td{padding:6px 8px;font-size:9pt}
+
+    .exercise{margin:0 0 16px;padding:14px;border-radius:14px;break-inside:avoid}
+    .exercise h2{font-size:16pt}
+    .exercise>p{margin:4px 0 8px;font-size:9.5pt}
+    pre{padding:10px;font-size:8.5pt;line-height:1.4;border-radius:6px}
+
+    .resources{margin:0 0 16px;padding:14px;border-radius:14px;break-inside:avoid}
+    .resources-grid{display:flex;gap:8px}
+    .resource-item{flex:1 1 50%;padding:8px}
+
+
+    .quick-start{margin:0 0 10px;padding:9px 13px;border-radius:12px;background:var(--card);border:1px solid var(--line);break-inside:avoid}
+    .quick-start h2{font-size:15pt;line-height:1.1;margin:0 0 3px;break-after:avoid !important;page-break-after:avoid !important}
+    .quick-start p{font-size:9.5pt;margin:0 0 4px}
+    .quick-start-grid{display:flex;flex-wrap:wrap;gap:5px;margin:0;padding:0;list-style:none}
+    .quick-start-grid li{flex:1 1 28%;padding:7px 9px;border-radius:8px;background:var(--blue-pale);break-inside:avoid}
+    .quick-start-grid strong{font-size:10.5pt}
+    .quick-start-grid span{font-size:8.5pt;margin-top:1px}
+
+    .safety-note{margin-top:5px;padding:6px 9px;border-radius:8px;font-size:9pt;break-inside:avoid}
+    .contrast-grid{break-inside:avoid}
+    .contrast-card{padding:7px 9px;font-size:9pt;break-inside:avoid}
+    .contrast-card h4{font-size:10.5pt;margin:0 0 2px}
+    .contrast-card .annotation{font-size:8.5pt;margin-top:3px}
+    .contrast-card p{margin:0 0 3px}
+    .resources-grid{flex-wrap:wrap}
+    .resource-item{padding:5px 7px;font-size:9pt;break-inside:avoid}
+    .resource-item h3{font-size:10.5pt;margin:0 0 2px}
+    .resource-item p{margin:0}
+
+    .section-group{margin:0 0 8px}
+    .lesson{margin:0 0 7px;padding:9px}
+    .lesson p{margin:0 0 4px}
+    .workflow,.exercise,.resources,.limits{margin:0 0 8px}
+    .exercise h2{font-size:15pt}
+    .exercise p{font-size:9.5pt;margin:0 0 4px}
+    .exercise ul{margin:3px 0 4px}
+    .exercise li{margin-top:1px}
+    .exercise pre{font-size:7pt;line-height:1.22;padding:7px}
+    .trouble-grid{margin-top:6px}
+    .trouble{padding:8px}
+    .trouble h3{font-size:10.5pt;margin-bottom:2px}
+    .trouble p{font-size:9pt;margin:0}
+  
+    footer{padding:4px 0 0;margin:0 !important;font-size:8.5pt;text-align:center;break-inside:avoid;break-before:avoid;page-break-after:avoid;break-after:avoid}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to guide</a>
+
+<div class="wrap">
+  <header id="top">
+    <p class="kicker">A practical guide for new &amp; growing AI users</p>
+    <h1>The Context Blueprint</h1>
+    <p class="subtitle">Context tells AI what matters. A stronger model can help, but it still needs your goal, facts, and rules.</p>
+    
+    <img class="hero-art" src="images/context-hero.jpg" alt="Illustration of a chibi king character shining a spotlight on relevant document packets, representing context for an AI assistant.">
+  </header>
+
+  <section class="quick-start" aria-labelledby="quick-start-title">
+    <h2 id="quick-start-title">Start here: give AI five useful things</h2>
+    <p>You do not need a perfect prompt. Begin with this short checklist, then let the AI ask for anything important that is missing. (This checklist and the "4 S's" framework below are the same idea — this is the fast version.)</p>
+    <ol class="quick-start-grid">
+      <li><strong>Goal</strong>What do you want made or solved?</li>
+      <li><strong>Audience</strong>Who will read or use it?</li>
+      <li><strong>Sources</strong>Which facts or files should it rely on?</li>
+      <li><strong>Rules</strong>What format, tone, length, or exclusions matter?</li>
+      <li><strong>Question</strong>Let the AI ask you up to three clarifying questions if key facts are missing.</li>
+    </ol>
+  </section>
+
+  <section class="claim" aria-labelledby="main-idea">
+    <strong id="main-idea">AI models don't read your mind; they process your context.</strong>
+    <p>AI only knows what you tell it, plus what it learned from public data during training — never your private situation or intent. Better context usually produces more useful output, but it does not guarantee correctness—check important facts and results.</p>
+  </section>
+
+  <nav aria-label="Page sections">
+    <ul class="jump-nav">
+      <li><a href="#overview">Six pillars</a></li>
+      <li><a href="#core-truth">The core truth</a></li>
+      <li><a href="#mental-model">How to think</a></li>
+      <li><a href="#channels">Context channels</a></li>
+      <li><a href="#examples">Good vs Bad</a></li>
+      <li><a href="#workflow">Iterative loop</a></li>
+      <li><a href="#cheat-sheet">Cheat sheet</a></li>
+      <li><a href="#exercise">Exercises</a></li>
+    </ul>
+  </nav>
+
+  <main id="main">
+    <section id="overview" aria-labelledby="overview-title">
+      <div class="intro">
+        <h2 id="overview-title">Six pillars of effective AI context</h2>
+        <p>Understanding these six concepts transforms AI from an unpredictable toy into a dependable, high-precision assistant.</p>
+      </div>
+
+      <ol class="map">
+        <li><strong>Context Matters</strong><span>Quality depends on context as well as model capability.</span></li>
+        <li><strong>Signal vs. Noise</strong><span>Relevant facts help; clutter dilutes attention.</span></li>
+        <li><strong>The 4 S's Frame</strong><span>A checklist for pillar 1: Scope, Sources, Style, and State.</span></li>
+        <li><strong>Delivery Channels</strong><span>Prompts, files, workspace search, saved rules, and tools.</span></li>
+        <li><strong>Iterative Refinement</strong><span>Build context step-by-step with the AI.</span></li>
+        <li><strong>Self-Correction</strong><span>Ask the AI to identify its own missing facts.</span></li>
+      </ol>
+    </section>
+
+    <section class="section-group" id="core-truth" aria-labelledby="core-title">
+      <div class="section-heading">
+        <p class="eyebrow">Foundation</p>
+        <h2 id="core-title">Why context dictates quality (Regardless of model)</h2>
+        <p>No model upgrade can replace the specific information inside your head or organization.</p>
+      </div>
+
+      <article class="lesson" id="model-agnostic">
+        <figure class="art-single">
+          
+          <img src="images/briefcase.jpg" alt="A chibi king character handing a briefcase of project documents to an AI assistant.">
+        </figure>
+        <div>
+          <p class="eyebrow">01 · The Briefcase Metaphor</p>
+          <h3>The Amnesiac World-Class Consultant</h3>
+          <span class="term">Context Window</span>
+
+          <h4>What it means</h4>
+          <p>A <strong>context window</strong> is the information an AI can consider in one chat at a time.</p>
+          <p>Imagine hiring a world-renowned consultant. They have vast general knowledge, but every morning they wake up with <strong>zero memory</strong> of your specific company, customers, brand tone, or codebase.</p>
+          <p>If you ask: <em>"Draft our weekly email,"</em> they must guess. If you hand them a briefing packet containing last week's email, target subscriber list, and key metrics, they will produce outstanding work immediately.</p>
+
+          <h4>Why it matters regardless of model</h4>
+          <p>Switching from a smaller model to a larger model gives you more intelligence, but <strong>not more mind-reading</strong>. A top-tier model with no context will simply write a more eloquent generic response. Only your context turns that general intelligence into an answer specific to you.</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-group" id="mental-model" aria-labelledby="mental-title">
+      <div class="section-heading">
+        <p class="eyebrow">Mental Framework</p>
+        <h2 id="mental-title">How to think about what context to provide</h2>
+        <p>Use structured mental models to decide what goes into your prompt packet.</p>
+      </div>
+
+      <article class="lesson" id="the-4-ss">
+        <figure class="art-single">
+          
+          <img src="images/four-pillars.jpg" alt="A chibi king character presenting the 4 S's: Scope, Sources, Style, and State.">
+        </figure>
+        <div>
+          <p class="eyebrow">02 · The 4 S's Checklist</p>
+          <h3>The 4 S's of Context Preparation</h3>
+          <span class="term">Context Structure</span>
+
+          <h4>1. Scope &amp; Goal</h4>
+          <p>What exact output is needed? State the goal, target audience, format, and boundaries (what to exclude).</p>
+
+          <h4>2. Source Material</h4>
+          <p>What facts, data sheets, code files, or policy documents serve as the absolute single source of truth?</p>
+
+          <h4>3. Style &amp; Constraints</h4>
+          <p>What tone, word limit, coding language, or structural requirements must be strictly followed?</p>
+
+          <h4>4. State &amp; History</h4>
+          <p>What was already attempted? What failed? What background decisions are already locked in?</p>
+        </div>
+      </article>
+
+      <article class="lesson" id="signal-vs-noise">
+        <figure class="art-single">
+          
+          <img src="images/signal-noise.jpg" alt="A chibi king character filtering noise from signal in a document stream.">
+        </figure>
+        <div>
+          <p class="eyebrow">03 · Context Density</p>
+          <h3>Signal vs. Noise (Context Dilution)</h3>
+          <span class="term">Context Attention</span>
+
+          <h4>What it means</h4>
+          <ul>
+            <li><strong>Signal</strong> — relevant data that directly helps solve the task.</li>
+            <li><strong>Noise</strong> — irrelevant background text, outdated chat history, or giant unparsed logs.</li>
+            <li><strong>Attention</strong> — the AI's limited capacity to focus on the most important parts of what you gave it. Think spotlight, not floodlight.</li>
+          </ul>
+
+          <h4>Why it matters</h4>
+          <p>That spotlight only covers so much at once. Dumping 100 pages of irrelevant documentation dilutes key instructions, causing the AI to miss vital rules. <strong>Curated, high-density context beats raw volume every time.</strong></p>
+
+          <div class="try">
+            <strong>Golden Rule of Context</strong>
+            <p>Include everything necessary, but remove everything irrelevant. When providing long files, tell the model exactly which sections to focus on.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-group" id="channels" aria-labelledby="channels-title">
+      <div class="section-heading">
+        <p class="eyebrow">Delivery Methods</p>
+        <h2 id="channels-title">Common ways to provide context to AI</h2>
+        <p>Choose the right channel based on the scale and repetition of your work.</p>
+      </div>
+
+      <article class="lesson" id="delivery-channels">
+        <figure class="art-pair">
+          
+          <img src="images/prompt-packet.jpg" alt="A chibi king character attaching documents to a chat window.">
+          
+          <img src="images/rag-workspace.jpg" alt="A chibi king character connecting a codebase workspace to an AI agent.">
+        </figure>
+        <div>
+          <p class="eyebrow">04 · Delivery Mechanisms</p>
+          <h3>The 5 Context Channels</h3>
+          <span class="term">Prompts · Files · Workspace Search · Saved Rules · Tools</span>
+
+          <ul>
+            <li><strong>1. In-Prompt Context:</strong> Inline text inside your message (role, goal, rules, short code snippets).</li>
+            <li><strong>2. File Attachments:</strong> PDFs, Markdown docs, CSVs, images, or code files attached directly to a chat turn.</li>
+            <li><strong>3. Workspace Search:</strong> Some AI tools can search your connected folders or code projects instead of making you paste every file.</li>
+            <li><strong>4. Saved Rules:</strong> Some tools let you save preferences or project instructions for future chats. Check them each time; they may not apply everywhere.</li>
+            <li><strong>5. Tool Results:</strong> Information returned by a connected tool, such as a spreadsheet lookup, terminal result, or website check.</li>
+          </ul>
+          <div class="safety-note">
+            <strong>Keep private information private</strong>
+            Do not paste passwords, private keys, customer records, medical details, or confidential material unless your organization has approved that AI tool for it.
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="section-group" id="examples" aria-labelledby="examples-title">
+      <div class="section-heading">
+        <p class="eyebrow">Before &amp; After</p>
+        <h2 id="examples-title">Examples of bad vs. good context</h2>
+        <p>Notice how adding concrete sources, constraints, and state transforms vague prompts into actionable requests.</p>
+      </div>
+
+      <article class="lesson lesson-full" id="writing-example">
+        <div>
+          <p class="eyebrow">Example 1 · Content &amp; Business Writing</p>
+          <h3>Announcing a Product Feature</h3>
+          <div class="contrast-grid">
+            <div class="contrast-card bad">
+              <h4>❌ Too Little Information</h4>
+              <p>“Write a blog post announcing our new offline sync feature for our app.”</p>
+              <p class="annotation">Result: AI invents features, uses generic corporate jargon, picks arbitrary length, and misses customer pain points.</p>
+            </div>
+            <div class="contrast-card good">
+              <h4>✅ Good Context (Structured)</h4>
+              <p>“Draft a 350-word announcement for retail store managers using our iOS app. Focus on offline inventory sync.<br>
+              <strong>Context:</strong> Managers lose connectivity in stockrooms. App now auto-queues updates and syncs when back online.<br>
+              <strong>Source:</strong> Attached <code>faq-draft.md</code>.<br>
+              <strong>Tone:</strong> Practical, reassuring, direct.<br>
+              <strong>Format:</strong> Headline, 2-paragraph explanation, 3 bullet highlights, 1 call-to-action.”</p>
+              <p class="annotation">Likely result: A more accurate, brand-aligned draft that still needs a quick fact check.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson lesson-full" id="coding-example">
+        <div>
+          <p class="eyebrow">Example 2 · Technical &amp; Coding (skip if you don't code)</p>
+          <h3>Fixing an Application Error</h3>
+          <div class="contrast-grid">
+            <div class="contrast-card bad">
+              <h4>❌ Too Little Information</h4>
+              <p>“My API login is failing with an error. Fix it.”</p>
+              <p class="annotation">Result: AI asks 10 questions or guesses a framework you aren't even using.</p>
+            </div>
+            <div class="contrast-card good">
+              <h4>✅ Good Context (Structured)</h4>
+              <p>“Fix a HTTP 401 Unauthorized error occurring during JWT token refresh.<br>
+              <strong>Environment:</strong> Node.js v20, Express, jsonwebtoken 9.0.<br>
+              <strong>Files Attached:</strong> <code>authController.js</code> (lines 45-90) and <code>middleware/verifyToken.js</code>.<br>
+              <strong>Error Trace:</strong> Attached error log snippet showing <code>jwt expired at Auth.verify</code>.<br>
+              <strong>Constraint:</strong> Do not change signature of existing helper functions.”</p>
+              <p class="annotation">Likely result: A focused investigation and a proposed edit that you can test.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="lesson lesson-full" id="everyday-example">
+        <div>
+          <p class="eyebrow">Example 3 · Everyday Planning</p>
+          <h3>Planning a Weeknight Dinner</h3>
+          <div class="contrast-grid">
+            <div class="contrast-card bad">
+              <h4>❌ Too Little Information</h4>
+              <p>“Give me a dinner idea.”</p>
+              <p class="annotation">Result: The suggestion may ignore your time, budget, ingredients, or dietary needs.</p>
+            </div>
+            <div class="contrast-card good">
+              <h4>✅ Useful Context</h4>
+              <p>“Suggest one dinner for two people. I have chicken, rice, broccoli, and soy sauce. It must take 30 minutes or less, use one pan, and avoid dairy. Give a shopping list only if an essential ingredient is missing.”</p>
+              <p class="annotation">Likely result: A practical recipe matched to what you have and need.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="workflow" id="workflow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Iterative Context Building Loop</h2>
+      <p>Do not try to build the perfect context packet in isolation. Build context iteratively with your AI assistant.</p>
+      <ol>
+        <li><strong>State initial goal &amp; preliminary context</strong><span>Give the core objective, main files, and high-level rules.</span></li>
+        <li><strong>Run the Inquiry Drill</strong><span>Ask: "Before generating, list up to 3 missing pieces of context you need."</span></li>
+        <li><strong>Fill the identified gaps</strong><span>Attach the requested doc, clarify constraints, or state historical facts.</span></li>
+        <li><strong>Inspect the preliminary draft</strong><span>Evaluate tone, accuracy, and adherence to rules.</span></li>
+        <li><strong>Refactor &amp; prune context</strong><span>Clear outdated chat turns or summarize long discussions into a clean packet.</span></li>
+        <li><strong>Save successful context templates</strong><span>Turn working prompts into reusable runbooks — see the Master Context Template below.</span></li>
+      </ol>
+    </section>
+
+    <section class="section-group" aria-labelledby="trouble-title">
+      <div class="section-heading">
+        <p class="eyebrow">Troubleshooting</p>
+        <h2 id="trouble-title">Diagnosing context failures</h2>
+        <p>When AI outputs fall short, missing or unclear context is often part of the problem. The model, task, or source material can also be the cause.</p>
+      </div>
+      <div class="trouble-grid">
+        <article class="trouble">
+          <h3>“Output sounds generic &amp; fluffy.”</h3>
+          <p><strong>Context Gap:</strong> Missing concrete source documents, audience definition, or brand style examples. <strong>Fix:</strong> Attach reference files and define strict tone guidelines.</p>
+        </article>
+        <article class="trouble">
+          <h3>“AI hallucinated fabricated facts.”</h3>
+          <p><strong>Context Gap:</strong> No explicit source of truth provided, forcing model to rely on web pre-training guesses. <strong>Fix:</strong> Supply reference docs and add: <em>"Use ONLY attached file; mark missing facts as UNKNOWN."</em></p>
+        </article>
+        <article class="trouble">
+          <h3>“AI ignored rules near the bottom.”</h3>
+          <p><strong>Context Gap:</strong> Context dilution / noise saturation. Instructions got buried in large text dumps. <strong>Fix:</strong> Put core rules at top and bottom of prompt; trim unnecessary files.</p>
+        </article>
+        <article class="trouble">
+          <h3>“AI forgot earlier instructions.”</h3>
+          <p><strong>Context Gap:</strong> Context window limit reached or chat history became bloated. <strong>Fix:</strong> Summarize current state into a new turn or start a fresh session with a refined packet.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="cheat" id="cheat-sheet" aria-labelledby="cheat-title">
+      <div class="section-heading">
+        <p class="eyebrow">Quick Reference</p>
+        <h2 id="cheat-title">Context Cheat Sheet</h2>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Pillar</th><th>Question to Ask Yourself</th><th>Action to Take</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="Pillar">Scope</td><td data-label="Question to Ask Yourself">What is the exact boundary of this task?</td><td data-label="Action to Take">Define clear goal, format, length, and exclusions.</td></tr>
+            <tr><td data-label="Pillar">Source</td><td data-label="Question to Ask Yourself">What is the single source of truth?</td><td data-label="Action to Take">Attach files/docs; instruct model to ground answers in them.</td></tr>
+            <tr><td data-label="Pillar">Style</td><td data-label="Question to Ask Yourself">Who is reading/using this output?</td><td data-label="Action to Take">Specify tone, vocabulary level, and structural constraints.</td></tr>
+            <tr><td data-label="Pillar">State</td><td data-label="Question to Ask Yourself">What context from previous steps matters?</td><td data-label="Action to Take">State locked decisions, failed attempts, and environment details.</td></tr>
+            <tr><td data-label="Pillar">Density</td><td data-label="Question to Ask Yourself">Is there unnecessary noise in the prompt?</td><td data-label="Action to Take">Remove unrelated text/files; highlight relevant sections.</td></tr>
+            <tr><td data-label="Pillar">Refinement</td><td data-label="Question to Ask Yourself">Is information missing?</td><td data-label="Action to Take">Run the Inquiry Drill: ask AI what missing facts it needs.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="exercise" id="exercise" aria-labelledby="exercise-title">
+      <h2 id="exercise-title">Practice: The Master Context Template</h2>
+      <p>Use this copy-pasteable context frame for your next real-world AI task. Fill out the brackets before sending.</p>
+      <p><strong>Stuck on what to fill in?</strong> Ask the AI first: <em>"I want to [goal]. What context would you need from me to do this well?"</em> — it will tell you exactly what's missing before you spend time guessing.</p>
+      <p><strong>Three more meta-moves worth memorizing:</strong></p>
+      <ul>
+        <li><em>"Restate my request in your own words before starting."</em> — catches misunderstanding before wasted work.</li>
+        <li><em>"What's a question I should be asking but haven't?"</em> — surfaces gaps you didn't know existed.</li>
+        <li><em>"Where am I likely making a mistake here?"</em> (when sharing your own draft/code) — primes a critical read instead of a rubber stamp.</li>
+      </ul>
+      <pre>[ROLE / PERSPECTIVE]
+You are acting as an expert [Role/Specialty, e.g. Senior Tech Writer / Marketing Manager].
+
+[GOAL &amp; SCOPE]
+Help me accomplish: [State the exact deliverable].
+Target Audience / Consumer: [Who reads or consumes this].
+
+[SOURCE MATERIAL / TRUTH]
+Rely strictly on the following sources:
+- Source 1: [Attached file / pasted text / URL / tool output]
+- Source 2: [Attached file / pasted text / URL / tool output]
+
+[EXAMPLES]
+Good output looks like: [Paste or describe one ideal example]
+Bad output looks like: [Paste or describe what to avoid]
+
+[OUTPUT STRUCTURE]
+Return results in this shape:
+[e.g. JSON with keys X, Y / markdown table with columns A, B / numbered list]
+
+[CONSTRAINTS &amp; STYLE]
+- Format: [e.g. Bullet points, 300 words, markdown table]
+- Tone/Style: [e.g. Direct, professional, non-technical]
+- Do NOT: [State explicit exclusions or forbidden actions]
+
+[INQUIRY DRILL]
+For interactive use: Ask up to 3 questions if any critical fact is missing or ambiguous. Otherwise, provide a concise plan first.
+For autonomous/agent use: Make reasonable assumptions and execute. Flag any assumption that could change the outcome.</pre>
+    </section>
+
+    <section class="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">Resources for Further Learning</h2>
+      <p>Continue mastering AI collaboration with these foundational guides and concepts:</p>
+      <div class="resources-grid">
+        <div class="resource-item">
+          <h3>Prompt Engineering Guide</h3>
+          <p>Learn structural techniques like zero-shot, few-shot, and chain-of-thought prompting at <a href="https://www.promptingguide.ai" target="_blank" rel="noopener noreferrer">promptingguide.ai</a>.</p>
+        </div>
+        <div class="resource-item">
+          <h3>Understanding RAG Basics</h3>
+          <p>Explore <a href="https://aws.amazon.com/what-is/retrieval-augmented-generation/" target="_blank" rel="noopener noreferrer">Retrieval-Augmented Generation</a> and how modern AI tools connect to local codebases and knowledge graphs.</p>
+        </div>
+        <div class="resource-item">
+          <h3>Anthropic &amp; OpenAI Docs</h3>
+          <p>Read official prompt design guidelines from model creators on structuring system prompts and context limits: <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener noreferrer">Anthropic</a> · <a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener noreferrer">OpenAI</a>.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <a href="#top">Back to top</a>
+    <span class="separator" aria-hidden="true">|</span>
+    <span>Created by <a href="https://github.com/the-matt-moo" target="_blank" rel="noopener noreferrer">the-matt-moo on GitHub</a></span>
+  </footer>
+</div>
+
+</body>
+</html>
